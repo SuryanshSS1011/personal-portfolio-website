@@ -37,6 +37,21 @@ import {
 
 // Floating particles component
 const FloatingParticles = () => {
+  const [dimensions, setDimensions] = useState({ width: 1200, height: 800 })
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setDimensions({ width: window.innerWidth, height: window.innerHeight })
+
+      const handleResize = () => {
+        setDimensions({ width: window.innerWidth, height: window.innerHeight })
+      }
+
+      window.addEventListener("resize", handleResize)
+      return () => window.removeEventListener("resize", handleResize)
+    }
+  }, [])
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {[...Array(20)].map((_, i) => (
@@ -44,12 +59,12 @@ const FloatingParticles = () => {
           key={i}
           className="absolute w-2 h-2 bg-primary/20 rounded-full"
           initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * dimensions.width,
+            y: Math.random() * dimensions.height,
           }}
           animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
+            x: Math.random() * dimensions.width,
+            y: Math.random() * dimensions.height,
           }}
           transition={{
             duration: Math.random() * 10 + 20,
@@ -503,18 +518,6 @@ export default function Portfolio() {
               </motion.div>
             </motion.div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-20 bg-primary/5">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatsCounter end={83} label="Research Accuracy" suffix="%" />
-            <StatsCounter end={490} label="Bug Dataset Size" />
-            <StatsCounter end={12} label="Performance Improvement" suffix="%" />
-            <StatsCounter end={5} label="Years Experience" />
-          </div>
         </div>
       </section>
 
