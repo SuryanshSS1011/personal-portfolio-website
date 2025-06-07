@@ -609,7 +609,7 @@ export default function Portfolio() {
               About Me
             </motion.h2>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
               <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-primary">
@@ -668,19 +668,14 @@ export default function Portfolio() {
                         icon: BookOpen,
                       },
                       {
-                        title: "Research Excellence",
-                        desc: "83.7% accuracy in LLM-powered performance bug detection",
-                        icon: TrendingUp,
+                        title: "Multi-Domain Innovation",
+                        desc: "Solving problems through projects like Wynlabs.ai and the UAV-based Disaster Management process",
+                        icon: Rocket,
                       },
                       {
                         title: "Leadership",
                         desc: "President of Cyber-Lions Club, IEEE Lead Assistant",
                         icon: Users,
-                      },
-                      {
-                        title: "Innovation",
-                        desc: "Co-founder of Wynlabs.ai and OpenScholar Hub",
-                        icon: Rocket,
                       },
                     ].map((achievement, index) => (
                       <motion.div
@@ -695,6 +690,56 @@ export default function Portfolio() {
                         <div>
                           <h3 className="font-semibold">{achievement.title}</h3>
                           <p className="text-sm text-muted-foreground">{achievement.desc}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2 text-primary">
+                    <Coffee className="h-5 w-5" />
+                    Hobbies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {[
+                      {
+                        title: "Playing Music",
+                        desc: "Exploring various instruments and musical styles",
+                        icon: Star,
+                      },
+                      {
+                        title: "Songwriting",
+                        desc: "Creating original compositions and lyrics",
+                        icon: BookOpen,
+                      },
+                      {
+                        title: "Learning Languages & Linguistics",
+                        desc: "Studying language structures and cultural connections",
+                        icon: Brain,
+                      },
+                      {
+                        title: "Documentaries",
+                        desc: "Watching science, history, and cultural documentaries",
+                        icon: TrendingUp,
+                      },
+                    ].map((hobby, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors"
+                      >
+                        <hobby.icon className="h-5 w-5 text-primary mt-0.5" />
+                        <div>
+                          <h3 className="font-semibold">{hobby.title}</h3>
+                          <p className="text-sm text-muted-foreground">{hobby.desc}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -1298,27 +1343,21 @@ export default function Portfolio() {
                 </motion.div>
               ))}
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-1 gap-6">
                 {[
                   {
                     title: "Community Service",
                     org: "Various Organizations",
                     items: [
-                      "Envision Cleveland - Week-long service program addressing urban challenges",
-                      "STEM Instructor at Middletown Public Library",
-                      "Taught circuits, Arduino fundamentals, and programming",
+                      "Envision Cleveland - Week-long service program addressing urban challenges in Cleveland",
+                      "Contributed to community improvement efforts, education programs, and refugee support initiatives",
+                      "Gained hands-on experience in sustainability, mentorship, and urban development",
+                      "STEM Instructor at Middletown Public Library - Led interactive sessions for various age groups",
+                      "Taught circuits, Arduino fundamentals, and introductory programming to local community",
+                      "Promoted collaborative learning and interest in technology within the community",
+                      "Organized technical workshops and educational outreach events through IEEE Student Branch",
                     ],
                     icon: Users,
-                  },
-                  {
-                    title: "Awards & Recognition",
-                    org: "",
-                    items: [
-                      "Winner, HackPSH IEEE Hackathon (Fall 2023)",
-                      "Dean's List (All Semesters)",
-                      "President Walker Award",
-                    ],
-                    icon: Award,
                   },
                 ].map((section, index) => (
                   <motion.div
