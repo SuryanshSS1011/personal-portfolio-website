@@ -762,7 +762,7 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-center gap-2 text-sm text-muted-foreground"
                             >
-                              <Star className="h-3 w-3 text-primary" />
+                              <Star className="h-4 w-4 text-primary flex-shrink-0" />
                               {achievement}
                             </motion.div>
                           ))}
@@ -783,7 +783,7 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-center gap-2 text-sm text-muted-foreground"
                             >
-                              <Zap className="h-3 w-3 text-primary" />
+                              <Zap className="h-4 w-4 text-primary flex-shrink-0" />
                               {impact}
                             </motion.div>
                           ))}
@@ -844,7 +844,7 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-center gap-2 text-sm text-muted-foreground"
                             >
-                              <Zap className="h-3 w-3 text-secondary" />
+                              <Zap className="h-4 w-4 text-secondary flex-shrink-0" />
                               {component}
                             </motion.div>
                           ))}
@@ -865,7 +865,7 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-center gap-2 text-sm text-muted-foreground"
                             >
-                              <Target className="h-3 w-3 text-secondary" />
+                              <Target className="h-4 w-4 text-secondary flex-shrink-0" />
                               {application}
                             </motion.div>
                           ))}
@@ -876,20 +876,20 @@ export default function Portfolio() {
                         <h4 className="font-medium mb-2 text-secondary">Research Outcomes:</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex items-start gap-2">
-                            <BookOpen className="h-3 w-3 text-secondary mt-1 flex-shrink-0" />
+                            <BookOpen className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
                             <span>
                               Developed prototype UAV system with integrated sensor suite for disaster response
                               scenarios
                             </span>
                           </div>
                           <div className="flex items-start gap-2">
-                            <Brain className="h-3 w-3 text-secondary mt-1 flex-shrink-0" />
+                            <Brain className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
                             <span>
                               Implemented machine learning algorithms for automated debris detection and path planning
                             </span>
                           </div>
                           <div className="flex items-start gap-2">
-                            <Users className="h-3 w-3 text-secondary mt-1 flex-shrink-0" />
+                            <Users className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
                             <span>
                               Collaborated with emergency management professionals to validate real-world applicability
                             </span>
@@ -968,7 +968,7 @@ export default function Portfolio() {
                             viewport={{ once: true }}
                             className="flex items-start gap-2"
                           >
-                            <Coffee className="h-3 w-3 text-primary mt-1 flex-shrink-0" />
+                            <Coffee className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                             {item}
                           </motion.li>
                         ))}
@@ -1030,7 +1030,7 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-start gap-2"
                             >
-                              <BookOpen className="h-3 w-3 text-primary mt-1 flex-shrink-0" />
+                              <BookOpen className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                               {item}
                             </motion.li>
                           ))}
@@ -1063,7 +1063,6 @@ export default function Portfolio() {
               {[
                 {
                   title: "Wynlabs.ai",
-                  role: "Co-founding Member",
                   description:
                     "Collaborating with a cross-institutional team to build an AI-powered copilot for the manufacturing industry.",
                   features: [
@@ -1077,7 +1076,6 @@ export default function Portfolio() {
                 },
                 {
                   title: "OpenScholar Hub",
-                  role: "Founder",
                   description:
                     "Developing a centralized research collaboration platform to support networking, data sharing, and project management.",
                   features: [
@@ -1091,7 +1089,6 @@ export default function Portfolio() {
                 },
                 {
                   title: "VeriChain",
-                  role: "Developer",
                   description:
                     "Built a decentralized platform for issuing, verifying, and managing academic and professional credentials on the blockchain.",
                   features: [
@@ -1131,7 +1128,6 @@ export default function Portfolio() {
                               project.title
                             )}
                           </CardTitle>
-                          <CardDescription>{project.role}</CardDescription>
                         </div>
                         <motion.div
                           whileHover={{ scale: 1.2, rotate: 15 }}
@@ -1157,9 +1153,9 @@ export default function Portfolio() {
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ delay: featureIndex * 0.1 }}
                             viewport={{ once: true }}
-                            className="flex items-center gap-2"
+                            className="flex items-start gap-2"
                           >
-                            <Rocket className="h-3 w-3 text-primary" />
+                            <Rocket className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                             {feature}
                           </motion.p>
                         ))}
@@ -1292,7 +1288,7 @@ export default function Portfolio() {
                             viewport={{ once: true }}
                             className="flex items-start gap-2"
                           >
-                            <Star className="h-3 w-3 text-primary mt-1 flex-shrink-0" />
+                            <Star className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                             {item}
                           </motion.li>
                         ))}
@@ -1351,7 +1347,7 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-start gap-2"
                             >
-                              <Star className="h-3 w-3 text-primary mt-1 flex-shrink-0" />
+                              <Star className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                               {item}
                             </motion.li>
                           ))}
