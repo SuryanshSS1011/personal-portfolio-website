@@ -549,11 +549,28 @@ export default function Portfolio() {
                 <Brain className="h-4 w-4 mr-2" />
                 View Research
               </Button>
-              <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/10">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => {
+                  const link = document.createElement("a")
+                  link.href = "/Suryansh_Sijwali_CV.txt"
+                  link.download = "Suryansh_Sijwali_CV.txt"
+                  document.body.appendChild(link)
+                  link.click()
+                  document.body.removeChild(link)
+                }}
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Download CV
               </Button>
-              <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/10">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali-b807a6292/", "_blank")}
+              >
                 <Linkedin className="h-4 w-4 mr-2" />
                 LinkedIn
               </Button>
@@ -1042,7 +1059,7 @@ export default function Portfolio() {
               Projects
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
                   title: "Wynlabs.ai",
@@ -1056,6 +1073,7 @@ export default function Portfolio() {
                   ],
                   tags: ["AI/ML", "Manufacturing", "Analytics"],
                   icon: Brain,
+                  url: "https://www.wynlabs.ai/",
                 },
                 {
                   title: "OpenScholar Hub",
@@ -1069,6 +1087,21 @@ export default function Portfolio() {
                   ],
                   tags: ["Full-Stack", "Research", "Collaboration"],
                   icon: Users,
+                  url: "https://open-scholar-hub.vercel.app/",
+                },
+                {
+                  title: "VeriChain",
+                  role: "Developer",
+                  description:
+                    "Built a decentralized platform for issuing, verifying, and managing academic and professional credentials on the blockchain.",
+                  features: [
+                    "Developed smart contracts in Solidity (Polygon Amoy)",
+                    "Integrated Arweave and IPFS for secure, immutable storage",
+                    "Designed responsive UI using Next.js, Tailwind CSS, and atomic design principles with MetaMask-based authentication",
+                  ],
+                  tags: ["Blockchain", "Web3", "Next.js", "Solidity"],
+                  icon: Code,
+                  url: "https://verichain-sage.vercel.app/",
                 },
               ].map((project, index) => (
                 <motion.div
@@ -1085,7 +1118,18 @@ export default function Portfolio() {
                         <div>
                           <CardTitle className="flex items-center gap-2 text-primary">
                             <project.icon className="h-5 w-5" />
-                            {project.title}
+                            {project.url ? (
+                              <a
+                                href={project.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline"
+                              >
+                                {project.title}
+                              </a>
+                            ) : (
+                              project.title
+                            )}
                           </CardTitle>
                           <CardDescription>{project.role}</CardDescription>
                         </div>
@@ -1093,7 +1137,13 @@ export default function Portfolio() {
                           whileHover={{ scale: 1.2, rotate: 15 }}
                           transition={{ type: "spring", stiffness: 300 }}
                         >
-                          <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                          {project.url ? (
+                            <a href={project.url} target="_blank" rel="noopener noreferrer">
+                              <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                            </a>
+                          ) : (
+                            <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                          )}
                         </motion.div>
                       </div>
                     </CardHeader>
@@ -1333,15 +1383,26 @@ export default function Portfolio() {
               Interested in collaboration, research opportunities, or just want to chat about technology?
             </p>
             <div className="flex justify-center gap-4 mb-8">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              <Button
+                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                onClick={() => window.open("mailto:sss6371@psu.edu", "_blank")}
+              >
                 <Mail className="h-4 w-4 mr-2" />
                 Email Me
               </Button>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Button
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali-b807a6292/", "_blank")}
+              >
                 <Linkedin className="h-4 w-4 mr-2" />
                 LinkedIn
               </Button>
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/10">
+              <Button
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => window.open("https://github.com/SuryanshSS1011", "_blank")}
+              >
                 <Github className="h-4 w-4 mr-2" />
                 GitHub
               </Button>
