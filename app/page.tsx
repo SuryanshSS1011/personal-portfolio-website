@@ -555,8 +555,8 @@ export default function Portfolio() {
                 className="border-primary text-primary hover:bg-primary/10"
                 onClick={() => {
                   const link = document.createElement("a")
-                  link.href = "/Suryansh_Sijwali_CV.txt"
-                  link.download = "Suryansh_Sijwali_CV.txt"
+                  link.href = "/Suryansh-Sijwali-CV.pdf"
+                  link.download = "Suryansh-Sijwali-CV.pdf"
                   document.body.appendChild(link)
                   link.click()
                   document.body.removeChild(link)
