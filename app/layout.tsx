@@ -17,9 +17,19 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="antialiased">
+      <head>
+        <style>{`
+      .theme-transition {
+        transition: background-color 0.5s ease, color 0.5s ease;
+      }
+      .no-transitions * {
+        transition: none !important;
+      }
+    `}</style>
+      </head>
       <body className={inter.className}>
-        <div className="min-h-screen bg-background text-foreground">{children}</div>
+        <div className="min-h-screen bg-background text-foreground transition-colors duration-500">{children}</div>
       </body>
     </html>
   )

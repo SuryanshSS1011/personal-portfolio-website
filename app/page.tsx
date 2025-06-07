@@ -242,12 +242,36 @@ export default function Portfolio() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
+    // Add a class to prevent transitions on initial load
+    document.documentElement.classList.add("no-transitions")
+
     const savedTheme = localStorage.getItem("theme")
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
     const shouldBeDark = savedTheme === "dark" || (!savedTheme && prefersDark)
 
     setIsDark(shouldBeDark)
     document.documentElement.classList.toggle("dark", shouldBeDark)
+
+    // Remove the class after a small delay to allow transitions after initial load
+    setTimeout(() => {
+      document.documentElement.classList.remove("no-transitions")
+    }, 100)
+
+    // Add listener for system theme changes
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem("theme")) {
+        document.documentElement.classList.add("theme-transition")
+        setIsDark(e.matches)
+        document.documentElement.classList.toggle("dark", e.matches)
+        setTimeout(() => {
+          document.documentElement.classList.remove("theme-transition")
+        }, 500)
+      }
+    }
+
+    mediaQuery.addEventListener("change", handleChange)
+    return () => mediaQuery.removeEventListener("change", handleChange)
   }, [])
 
   useEffect(() => {
@@ -260,9 +284,21 @@ export default function Portfolio() {
 
   const toggleTheme = () => {
     const newTheme = !isDark
-    setIsDark(newTheme)
-    document.documentElement.classList.toggle("dark", newTheme)
-    localStorage.setItem("theme", newTheme ? "dark" : "light")
+
+    // Add a transition class to the body for smoother background transition
+    document.documentElement.classList.add("theme-transition")
+
+    // Set the theme after a small delay to ensure the transition class is applied
+    setTimeout(() => {
+      setIsDark(newTheme)
+      document.documentElement.classList.toggle("dark", newTheme)
+      localStorage.setItem("theme", newTheme ? "dark" : "light")
+
+      // Remove the transition class after the transition completes
+      setTimeout(() => {
+        document.documentElement.classList.remove("theme-transition")
+      }, 500)
+    }, 10)
   }
 
   const { scrollYProgress } = useScroll()
@@ -358,11 +394,27 @@ export default function Portfolio() {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon" onClick={toggleTheme} className="hover:bg-primary/20">
-                <Sun className={`h-4 w-4 transition-all ${isDark ? "-rotate-90 scale-0" : "rotate-0 scale-100"}`} />
-                <Moon
-                  className={`absolute h-4 w-4 transition-all ${isDark ? "rotate-0 scale-100" : "rotate-90 scale-0"}`}
-                />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="hover:bg-primary/20 relative overflow-hidden group"
+                aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              >
+                <div className="relative w-4 h-4">
+                  <Sun
+                    className={`absolute h-4 w-4 transition-all duration-500 ${
+                      isDark ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
+                    }`}
+                  />
+                  <Moon
+                    className={`absolute h-4 w-4 transition-all duration-500 ${
+                      isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
+                    }`}
+                  />
+                </div>
+                <span className="sr-only">{isDark ? "Switch to light mode" : "Switch to dark mode"}</span>
+                <span className="absolute inset-0 rounded-full bg-primary/10 transform scale-0 group-hover:scale-100 transition-transform duration-300"></span>
               </Button>
 
               <Button
@@ -722,24 +774,115 @@ export default function Portfolio() {
                       </div>
                     </div>
                   </CardContent>
+
+                  {/* Project Extension Section */}
                 </Card>
               </motion.div>
 
-              {/* Timeline for other research */}
-              <div className="space-y-8">
-                <TimelineItem
-                  title="Ongoing Research Extension"
-                  description="Developing experimental dataset for performance bugs in C code and building universal platform to detect and mitigate performance issues using LLMs"
-                  date="Summer 2025"
-                  isLeft={false}
-                />
-                <TimelineItem
-                  title="UAV-based Disaster Management Research"
-                  description="Collaborated on multidisciplinary project designing UAV-based disaster mitigation systems using LiDAR, SLAM, and object detection"
-                  date="Jun 2024 - Jul 2024"
-                  isLeft={true}
-                />
-              </div>
+              {/* UAV Research Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <Card className="border-l-4 border-l-secondary shadow-lg hover:shadow-xl transition-all duration-300">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <CardTitle className="text-xl text-secondary">UAV-based Disaster Management Research</CardTitle>
+                        <CardDescription>Jun 2024 - Jul 2024</CardDescription>
+                      </div>
+                      <Badge variant="outline" className="border-secondary/30 text-secondary">
+                        Collaborative Research
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <p className="text-sm">
+                        <strong>Research Focus:</strong> Multidisciplinary project designing autonomous UAV-based
+                        disaster mitigation systems for emergency response and recovery operations
+                      </p>
+                      <p className="text-sm">
+                        <strong>Collaboration:</strong> Cross-functional team including aerospace engineers, computer
+                        scientists, and emergency management specialists
+                      </p>
+
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-3">
+                          <h4 className="font-medium mb-2 text-secondary">Technical Components:</h4>
+                          {[
+                            "LiDAR sensor integration for 3D environmental mapping",
+                            "SLAM (Simultaneous Localization and Mapping) algorithms",
+                            "Real-time object detection and classification systems",
+                            "Autonomous navigation in GPS-denied environments",
+                          ].map((component, index) => (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              viewport={{ once: true }}
+                              className="flex items-center gap-2 text-sm text-muted-foreground"
+                            >
+                              <Zap className="h-3 w-3 text-secondary" />
+                              {component}
+                            </motion.div>
+                          ))}
+                        </div>
+                        <div className="space-y-3">
+                          <h4 className="font-medium mb-2 text-secondary">Applications & Impact:</h4>
+                          {[
+                            "Search and rescue operations in disaster zones",
+                            "Rapid damage assessment and mapping",
+                            "Supply delivery to inaccessible areas",
+                            "Real-time situational awareness for first responders",
+                          ].map((application, index) => (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, x: -20 }}
+                              whileInView={{ opacity: 1, x: 0 }}
+                              transition={{ delay: index * 0.1 + 0.4 }}
+                              viewport={{ once: true }}
+                              className="flex items-center gap-2 text-sm text-muted-foreground"
+                            >
+                              <Target className="h-3 w-3 text-secondary" />
+                              {application}
+                            </motion.div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="bg-secondary/5 rounded-lg p-4 border border-secondary/20 mt-4">
+                        <h4 className="font-medium mb-2 text-secondary">Research Outcomes:</h4>
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <BookOpen className="h-3 w-3 text-secondary mt-1 flex-shrink-0" />
+                            <span>
+                              Developed prototype UAV system with integrated sensor suite for disaster response
+                              scenarios
+                            </span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Brain className="h-3 w-3 text-secondary mt-1 flex-shrink-0" />
+                            <span>
+                              Implemented machine learning algorithms for automated debris detection and path planning
+                            </span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Users className="h-3 w-3 text-secondary mt-1 flex-shrink-0" />
+                            <span>
+                              Collaborated with emergency management professionals to validate real-world applicability
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </div>
           </motion.div>
         </div>
