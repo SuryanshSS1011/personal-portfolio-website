@@ -508,7 +508,7 @@ export default function Portfolio() {
               className="text-xl md:text-2xl text-muted-foreground mb-8 h-16"
             >
               <TypingAnimation
-                text="Computer Science & Physics Student | AI Researcher | Published Author"
+                text="Full-Stack Developer | Multi-Domain AI Researcher | Published Author"
                 className="inline-block"
               />
             </motion.div>
@@ -701,7 +701,7 @@ export default function Portfolio() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-primary">
                     <Coffee className="h-5 w-5" />
-                    Hobbies
+                    Outside Tech
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
