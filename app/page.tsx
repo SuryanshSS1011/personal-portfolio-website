@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
+import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -237,41 +238,13 @@ const StatsCounter = ({ end, label, suffix = "" }: { end: number; label: string;
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("hero")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Add a class to prevent transitions on initial load
-    document.documentElement.classList.add("no-transitions")
-
-    const savedTheme = localStorage.getItem("theme")
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-    const shouldBeDark = savedTheme === "dark" || (!savedTheme && prefersDark)
-
-    setIsDark(shouldBeDark)
-    document.documentElement.classList.toggle("dark", shouldBeDark)
-
-    // Remove the class after a small delay to allow transitions after initial load
-    setTimeout(() => {
-      document.documentElement.classList.remove("no-transitions")
-    }, 100)
-
-    // Add listener for system theme changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-    const handleChange = (e: MediaQueryListEvent) => {
-      if (!localStorage.getItem("theme")) {
-        document.documentElement.classList.add("theme-transition")
-        setIsDark(e.matches)
-        document.documentElement.classList.toggle("dark", e.matches)
-        setTimeout(() => {
-          document.documentElement.classList.remove("theme-transition")
-        }, 500)
-      }
-    }
-
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
+    setMounted(true)
   }, [])
 
   useEffect(() => {
@@ -281,25 +254,6 @@ export default function Portfolio() {
     window.addEventListener("mousemove", handleMouseMove)
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
-
-  const toggleTheme = () => {
-    const newTheme = !isDark
-
-    // Add a transition class to the body for smoother background transition
-    document.documentElement.classList.add("theme-transition")
-
-    // Set the theme after a small delay to ensure the transition class is applied
-    setTimeout(() => {
-      setIsDark(newTheme)
-      document.documentElement.classList.toggle("dark", newTheme)
-      localStorage.setItem("theme", newTheme ? "dark" : "light")
-
-      // Remove the transition class after the transition completes
-      setTimeout(() => {
-        document.documentElement.classList.remove("theme-transition")
-      }, 500)
-    }, 10)
-  }
 
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
@@ -397,23 +351,25 @@ export default function Portfolio() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={toggleTheme}
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 className="hover:bg-primary/20 relative overflow-hidden group"
-                aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               >
-                <div className="relative w-4 h-4">
-                  <Sun
-                    className={`absolute h-4 w-4 transition-all duration-500 ${
-                      isDark ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
-                    }`}
-                  />
-                  <Moon
-                    className={`absolute h-4 w-4 transition-all duration-500 ${
-                      isDark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
-                    }`}
-                  />
-                </div>
-                <span className="sr-only">{isDark ? "Switch to light mode" : "Switch to dark mode"}</span>
+                {mounted && (
+                  <div className="relative w-4 h-4">
+                    <Sun
+                      className={`absolute h-4 w-4 transition-all duration-500 ${
+                        theme === "dark" ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
+                      }`}
+                    />
+                    <Moon
+                      className={`absolute h-4 w-4 transition-all duration-500 ${
+                        theme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
+                      }`}
+                    />
+                  </div>
+                )}
+                <span className="sr-only">{theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}</span>
                 <span className="absolute inset-0 rounded-full bg-primary/10 transform scale-0 group-hover:scale-100 transition-transform duration-300"></span>
               </Button>
 
@@ -686,7 +642,7 @@ export default function Portfolio() {
                         viewport={{ once: true }}
                         className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors"
                       >
-                        <achievement.icon className="h-5 w-5 text-primary mt-0.5" />
+                        <achievement.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <div>
                           <h3 className="font-semibold">{achievement.title}</h3>
                           <p className="text-sm text-muted-foreground">{achievement.desc}</p>
@@ -736,7 +692,7 @@ export default function Portfolio() {
                         viewport={{ once: true }}
                         className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors"
                       >
-                        <hobby.icon className="h-5 w-5 text-primary mt-0.5" />
+                        <hobby.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                         <div>
                           <h3 className="font-semibold">{hobby.title}</h3>
                           <p className="text-sm text-muted-foreground">{hobby.desc}</p>
@@ -993,7 +949,7 @@ export default function Portfolio() {
                           <CardTitle className="text-primary">Full-Stack Mobile App Developer (Intern)</CardTitle>
                           <CardDescription>Flourish: Grow with Self-Care • Feb 2025 - Present</CardDescription>
                         </div>
-                        <Badge className="bg-green-500/20 text-green-700 border-green-500/30">Current</Badge>
+                        <Badge className="bg-success/20 text-success border-success/30">Current</Badge>
                       </div>
                     </CardHeader>
                     <CardContent>

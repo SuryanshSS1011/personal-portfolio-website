@@ -14,34 +14,40 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 47 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 43 89% 38%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 51 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --background: 60 100% 97%;
+    --foreground: 0 0% 2%;
+    --card: 60 100% 97%;
+    --card-foreground: 0 0% 2%;
+    --popover: 60 100% 97%;
+    --popover-foreground: 0 0% 2%;
+    --primary: 45 100% 35%;
+    --primary-foreground: 60 100% 97%;
+    --secondary: 39 100% 28%;
+    --secondary-foreground: 60 100% 97%;
+    --muted: 39 31% 91%;
+    --muted-foreground: 0 0% 25%;
+    --accent: 43 100% 40%;
+    --accent-foreground: 60 100% 97%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 47 100% 50%;
+    --destructive-foreground: 60 100% 97%;
+    --border: 39 31% 85%;
+    --input: 39 31% 85%;
+    --ring: 45 100% 35%;
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 39 56% 96%;
+    --sidebar-foreground: 0 0% 10%;
+    --sidebar-primary: 0 0% 10%;
+    --sidebar-primary-foreground: 39 56% 96%;
+    --sidebar-accent: 39 31% 91%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 39 31% 85%;
+    --sidebar-ring: 45 100% 35%;
+    --success: 142 71% 35%;
+    --success-foreground: 60 100% 97%;
+    --warning: 38 92% 40%;
+    --warning-foreground: 60 100% 97%;
+    --info: 199 89% 38%;
+    --info-foreground: 60 100% 97%;
   }
 
   .dark {
@@ -72,6 +78,12 @@ body {
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 2%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 98%;
   }
 }
 
