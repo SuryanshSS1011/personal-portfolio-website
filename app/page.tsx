@@ -623,7 +623,7 @@ export default function Portfolio() {
             {/* Stats Section */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
               <StatsCounter end={3} label="Years Experience" suffix="+" />
-              <StatsCounter end={15} label="Projects Completed" suffix="+" />
+              <StatsCounter end={5} label="Projects Completed" suffix="+" />
               <StatsCounter end={1} label="Research Publications" />
               <StatsCounter end={8} label="Technologies Mastered" suffix="+" />
             </div>
