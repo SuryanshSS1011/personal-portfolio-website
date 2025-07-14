@@ -887,14 +887,14 @@ export default function Portfolio() {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.02 }}
               >
-                <Card className="border-l-4 border-l-secondary shadow-lg hover:shadow-xl transition-all duration-300">
+                <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300">
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>
-                        <CardTitle className="text-xl text-secondary">UAV-based Disaster Management Research</CardTitle>
+                        <CardTitle className="text-xl text-primary">UAV-based Disaster Management Research</CardTitle>
                         <CardDescription>Jun 2024 - Jul 2024</CardDescription>
                       </div>
-                      <Badge variant="outline" className="border-secondary/30 text-secondary">
+                      <Badge variant="outline" className="border-primary/30 text-primary">
                         Extension Planned After Further Coursework
                       </Badge>
                     </div>
@@ -912,7 +912,7 @@ export default function Portfolio() {
 
                       <div className="grid md:grid-cols-2 gap-4">
                         <div className="space-y-3">
-                          <h4 className="font-medium mb-2 text-secondary">Technical Components:</h4>
+                          <h4 className="font-medium mb-2 text-primary">Technical Components:</h4>
                           {[
                             "LiDAR sensor integration for 3D environmental mapping",
                             "SLAM (Simultaneous Localization and Mapping) algorithms",
@@ -927,13 +927,13 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-center gap-2 text-sm text-muted-foreground"
                             >
-                              <Zap className="h-4 w-4 text-secondary flex-shrink-0" />
+                              <Zap className="h-4 w-4 text-primary flex-shrink-0" />
                               {component}
                             </motion.div>
                           ))}
                         </div>
                         <div className="space-y-3">
-                          <h4 className="font-medium mb-2 text-secondary">Applications & Impact:</h4>
+                          <h4 className="font-medium mb-2 text-primary">Applications & Impact:</h4>
                           {[
                             "Search and rescue operations in disaster zones",
                             "Rapid damage assessment and mapping",
@@ -948,18 +948,18 @@ export default function Portfolio() {
                               viewport={{ once: true }}
                               className="flex items-center gap-2 text-sm text-muted-foreground"
                             >
-                              <Target className="h-4 w-4 text-secondary flex-shrink-0" />
+                              <Target className="h-4 w-4 text-primary flex-shrink-0" />
                               {application}
                             </motion.div>
                           ))}
                         </div>
                       </div>
 
-                      <div className="bg-secondary/5 rounded-lg p-4 border border-secondary/20 mt-4">
-                        <h4 className="font-medium mb-2 text-secondary">Research Outcomes:</h4>
+                      <div className="bg-primary/5 rounded-lg p-4 border border-primary/20 mt-4">
+                        <h4 className="font-medium mb-2 text-primary">Research Outcomes:</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex items-start gap-2">
-                            <BookOpen className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
+                            <BookOpen className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                             <span>
                               Developed prototype UAV system with integrated sensor suite for disaster response
                               scenarios
@@ -1415,7 +1415,6 @@ export default function Portfolio() {
                           <CardTitle className="text-primary">AI & Automation Engineer</CardTitle>
                           <CardDescription>Outamation • May 2025 - Jul 2025 (Remote)</CardDescription>
                         </div>
-                        <Badge className="bg-blue-500 text-white">Externship</Badge>
                       </div>
                     </CardHeader>
                     <CardContent>
