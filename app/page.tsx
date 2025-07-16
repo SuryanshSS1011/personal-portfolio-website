@@ -575,7 +575,7 @@ export default function Portfolio() {
                 variant="outline"
                 size="lg"
                 className="border-primary text-primary hover:bg-primary/10"
-                onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali-b807a6292/", "_blank")}
+                onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali/", "_blank")}
               >
                 <Linkedin className="h-4 w-4 mr-2" />
                 LinkedIn
@@ -1909,7 +1909,7 @@ export default function Portfolio() {
               <Button
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary/10"
-                onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali-b807a6292/", "_blank")}
+                onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali/", "_blank")}
               >
                 <Linkedin className="h-4 w-4 mr-2" />
                 LinkedIn

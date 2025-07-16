@@ -99,7 +99,7 @@ export default function RootLayout({
       <head>
         <style>{`
       .theme-transition {
-        transition: background-color 0.5s ease, color 0.5s ease;
+        transition: background-color 0.2s ease, color 0.15s ease;
       }
       .no-transitions * {
         transition: none !important;
@@ -115,8 +115,15 @@ export default function RootLayout({
     `}</style>
       </head>
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <div className="min-h-screen bg-background text-foreground transition-colors duration-500">{children}</div>
+        <ThemeProvider 
+          attribute="class" 
+          defaultTheme="system" 
+          enableSystem 
+          disableTransitionOnChange={false}
+          storageKey="suryansh-portfolio-theme"
+          themes={['light', 'dark', 'system']}
+        >
+          <div className="min-h-screen bg-background text-foreground transition-colors duration-200">{children}</div>
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
