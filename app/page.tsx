@@ -1103,7 +1103,7 @@ export default function Portfolio() {
                               }}
                               className="text-primary hover:text-primary/80 transition-colors font-semibold text-left w-full"
                             >
-                              AI & Automation Engineer
+                              AI & Automation Engineer (Extern)
                             </button>
                             <p className="text-xs text-muted-foreground mt-1">May 2025 - Jul 2025</p>
                           </CardContent>
@@ -1412,7 +1412,7 @@ export default function Portfolio() {
                     <CardHeader>
                       <div className="flex justify-between items-start">
                         <div>
-                          <CardTitle className="text-primary">AI & Automation Engineer</CardTitle>
+                          <CardTitle className="text-primary">AI & Automation Engineer (Extern)</CardTitle>
                           <CardDescription>Outamation • May 2025 - Jul 2025 (Remote)</CardDescription>
                         </div>
                       </div>
@@ -1815,7 +1815,7 @@ export default function Portfolio() {
                   {
                     title: "Spring Break Community Service in Cleveland",
                     org: "Envision Cleveland",
-                    date: "Jun 2023",
+                    date: "Mar 2024",
                     items: [
                       "Participated in week-long service program addressing urban challenges in Cleveland",
                       "Contributed to community improvement efforts, education programs, and refugee support initiatives",
