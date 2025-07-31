@@ -1763,7 +1763,7 @@ export default function Portfolio() {
                     org: "IEEE Student Branch, Penn State Harrisburg",
                     date: "Jan 2024 - Dec 2024",
                     items: [
-                      "Co-developed the HackPSH hackathon platform using Next.js and Supabase",
+                      "Co-developed the HackPSH hackathon platform (https://ieee.hackpsh.org/) using Next.js and Supabase",
                       "Facilitated technical workshops on algorithms, data structures, and web development",
                       "Contributed to control systems and data analytics teams for IEEE PSH Radio Telescope project",
                       "Promoted community engagement and technical growth among peers in IEEE-led initiatives",
