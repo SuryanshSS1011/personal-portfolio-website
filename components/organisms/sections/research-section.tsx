@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
-import { Tabs, TabsContent, TabsList, TabsTrigger, IconTextListItem } from "@/components/molecules"
+import { Tabs, TabsContent, TabsList, TabsTrigger, IconTextListItem, ContentCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
 import { Star, Zap, BookOpen, Brain, Users, Target } from "lucide-react"
 
@@ -70,7 +70,7 @@ export const ResearchSection = () => {
 
         <TabsContent value="published" className="space-y-8">
           <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
-            <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>
@@ -133,7 +133,7 @@ export const ResearchSection = () => {
             viewport={{ once: true }}
             whileHover={{ scale: 1.02 }}
           >
-            <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300">
+            <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
               <CardHeader>
                 <div className="flex justify-between items-start">
                   <div>

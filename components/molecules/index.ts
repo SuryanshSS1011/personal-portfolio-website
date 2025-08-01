@@ -7,7 +7,7 @@ export { ProjectCard } from './project-card'
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './tabs'
 
 // Cards
-export { AnimatedCard } from './cards/animated-card'
+export * from './cards'
 
 // Lists
 export { IconTextListItem } from './lists/icon-text-list-item'

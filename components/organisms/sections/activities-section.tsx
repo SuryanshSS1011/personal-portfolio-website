@@ -88,7 +88,7 @@ export const ActivitiesSection = () => {
               viewport={{ once: true }}
               whileHover={{ scale: 1.02 }}
             >
-              <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-primary">
                     <activity.icon className="h-5 w-5" />
@@ -104,10 +104,12 @@ export const ActivitiesSection = () => {
                       <IconTextListItem
                         key={itemIndex}
                         icon={Star}
-                        title={item}
+                        title={typeof item === 'string' ? item : undefined}
                         index={itemIndex}
                         className="text-sm text-muted-foreground"
-                      />
+                      >
+                        {typeof item === 'string' ? undefined : item}
+                      </IconTextListItem>
                     ))}
                   </div>
                 </CardContent>
@@ -126,7 +128,7 @@ export const ActivitiesSection = () => {
               viewport={{ once: true }}
               whileHover={{ scale: 1.02 }}
             >
-              <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-primary">
                     <service.icon className="h-5 w-5" />

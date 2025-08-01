@@ -1,12 +1,5 @@
 export { Navigation } from './navigation'
-export { HeroSection } from './hero-section'
-export { AboutSection } from './about-section'
-export { ResearchSection } from './research-section'
-export { ExperienceSection } from './experience-section'
-export { ActivitiesSection } from './activities-section'
-export { SkillsSection } from './skills-section'
-export { ProjectsSection } from './projects-section'
 export { Footer } from './footer'
 
 // Sections
-export { SectionWrapper } from './sections/section-wrapper'
+export * from './sections'

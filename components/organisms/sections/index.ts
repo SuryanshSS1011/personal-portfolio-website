@@ -1,0 +1,8 @@
+export { SectionWrapper } from "./section-wrapper"
+export { AboutSection } from "./about-section"
+export { ActivitiesSection } from "./activities-section"
+export { ExperienceSection } from "./experience-section"
+export { HeroSection } from "./hero-section"
+export { ProjectsSection } from "./projects-section"
+export { ResearchSection } from "./research-section"
+export { SkillsSection } from "./skills-section"

@@ -33,7 +33,7 @@ export const ProjectCard = ({
       viewport={{ once: true }}
       whileHover={{ scale: 1.02 }}
     >
-      <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50 h-full">
+      <Card className="group border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50 h-full">
         <CardHeader>
           <div className="flex justify-between items-start">
             <div>
@@ -58,7 +58,7 @@ export const ProjectCard = ({
               transition={{ type: "spring", stiffness: 300 }}
             >
               {url ? (
-                <a href={url} target="_blank" rel="noopener noreferrer">
+                <a href={url} target="_blank" rel="noopener noreferrer" aria-label={`Open ${title} project`}>
                   <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
                 </a>
               ) : (
