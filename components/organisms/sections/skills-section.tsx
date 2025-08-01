@@ -1,6 +1,6 @@
 "use client"
 
-import { SkillCard } from "@/components/molecules/skill-card"
+import { SkillCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
 import { Code, Zap, Target } from "lucide-react"
 

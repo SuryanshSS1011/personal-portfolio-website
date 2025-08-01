@@ -1,6 +1,6 @@
 "use client"
 
-import { ProjectCard } from "@/components/molecules/project-card"
+import { ProjectCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
 import { Brain, Users, Code } from "lucide-react"
 

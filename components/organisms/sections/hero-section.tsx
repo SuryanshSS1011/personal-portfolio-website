@@ -1,11 +1,9 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import { IconButton } from "@/components/atoms"
+import { Button, TypingAnimation, ScrollIndicator } from "@/components/atoms"
 import { Brain, Download, Linkedin, MapPin, Mail, Phone } from "lucide-react"
-import { TypingAnimation } from "@/components/atoms/typing-animation"
 import { ContactItem, StaggeredList } from "@/components/molecules"
-import { ScrollIndicator } from "@/components/atoms/scroll-indicator"
 
 interface HeroSectionProps {
   onSectionClick: (sectionId: string) => void
@@ -114,15 +112,15 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
             transition={{ delay: 1 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <IconButton
+            <Button
               icon={Brain}
               onClick={() => onSectionClick("research")}
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300"
             >
               View Research
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               icon={Download}
               onClick={handleDownloadCV}
               variant="outline"
@@ -130,8 +128,8 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
               className="border-primary text-primary hover:bg-primary/10"
             >
               Download CV
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               icon={Linkedin}
               onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali/", "_blank")}
               variant="outline"
@@ -139,7 +137,7 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
               className="border-primary text-primary hover:bg-primary/10"
             >
               LinkedIn
-            </IconButton>
+            </Button>
           </motion.div>
 
           <ScrollIndicator targetId="about" />

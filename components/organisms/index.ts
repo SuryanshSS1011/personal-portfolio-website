@@ -1,5 +1,5 @@
-export { Navigation } from './navigation'
-export { Footer } from './footer'
+// Layout Components
+export * from './layout'
 
-// Sections
+// Content Sections
 export * from './sections'

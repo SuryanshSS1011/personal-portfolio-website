@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { IconButton } from "@/components/atoms"
+import { Button } from "@/components/atoms"
 import { Mail, Linkedin, Github } from "lucide-react"
 
 export const Footer = () => {
@@ -22,29 +22,29 @@ export const Footer = () => {
             Interested in collaboration, research opportunities, or just want to chat about technology?
           </p>
           <div className="flex justify-center gap-4 mb-8">
-            <IconButton
+            <Button
               icon={Mail}
               className="bg-primary hover:bg-primary/90 text-primary-foreground"
               onClick={() => window.open("mailto:sss6371@psu.edu", "_blank")}
             >
               Email Me
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               icon={Linkedin}
               variant="outline"
               className="border-primary text-primary hover:bg-primary/10"
               onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali/", "_blank")}
             >
               LinkedIn
-            </IconButton>
-            <IconButton
+            </Button>
+            <Button
               icon={Github}
               variant="outline"
               className="border-primary text-primary hover:bg-primary/10"
               onClick={() => window.open("https://github.com/SuryanshSS1011", "_blank")}
             >
               GitHub
-            </IconButton>
+            </Button>
           </div>
           <motion.p className="text-sm text-muted-foreground" whileHover={{ scale: 1.05 }}>
             © 2025 Suryansh Sijwali. All rights reserved.

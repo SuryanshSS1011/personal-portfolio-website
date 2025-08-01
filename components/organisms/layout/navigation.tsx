@@ -2,11 +2,9 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/atoms"
+import { Button, ThemeToggle, AnimationToggle } from "@/components/atoms"
 import { Menu, X } from "lucide-react"
-import { ThemeToggle } from "@/components/atoms/theme-toggle"
-import { AnimationToggle } from "@/components/atoms/animation-toggle"
-import { NavigationItem } from "@/components/molecules/navigation-item"
+import { NavigationItem } from "@/components/molecules"
 import { NavigationSection } from "@/types/navigation"
 
 interface NavigationProps {

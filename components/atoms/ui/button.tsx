@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { LucideIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
@@ -47,17 +48,23 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
+  icon?: LucideIcon
+  iconPosition?: "left" | "right"
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, icon: Icon, iconPosition = "left", children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
-      />
+      >
+        {Icon && iconPosition === "left" && <Icon className="h-4 w-4" />}
+        {children}
+        {Icon && iconPosition === "right" && <Icon className="h-4 w-4" />}
+      </Comp>
     )
   }
 )

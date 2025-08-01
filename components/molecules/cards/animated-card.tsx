@@ -1,10 +1,10 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card, CardProps } from "@/components/atoms/card"
+import { Card } from "@/components/atoms"
 import { cn } from "@/lib/utils"
 
-interface AnimatedCardProps extends CardProps {
+interface AnimatedCardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverEffect?: "lift" | "scale" | "shadow" | "none"
   animateIn?: boolean
   delay?: number

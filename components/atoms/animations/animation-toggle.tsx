@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "./button"
+import { Button } from "@/components/atoms"
 import { Play, Pause } from "lucide-react"
 
 interface AnimationToggleProps {
