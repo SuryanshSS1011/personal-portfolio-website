@@ -22,8 +22,9 @@ export const SkillCard = ({ title, skills, icon: Icon }: SkillCardProps) => {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6 }}
+      whileHover={{ scale: 1.02 }}
     >
-      <Card className="group hover:shadow-xl transition-all duration-300 hover:scale-105 border-primary/20 hover:border-primary/50">
+      <Card className="group hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-primary">
             <Icon className="h-5 w-5" />

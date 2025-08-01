@@ -1,10 +1,10 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import { Button } from "@/components/atoms"
+import { IconButton } from "@/components/atoms"
 import { Brain, Download, Linkedin, MapPin, Mail, Phone } from "lucide-react"
 import { TypingAnimation } from "@/components/atoms/typing-animation"
-import { ContactItem } from "@/components/molecules/contact-item"
+import { ContactItem, StaggeredList } from "@/components/molecules"
 import { ScrollIndicator } from "@/components/atoms/scroll-indicator"
 
 interface HeroSectionProps {
@@ -94,16 +94,18 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-4 mb-8"
+            className="mb-8"
           >
-            {contactItems.map((item, index) => (
-              <ContactItem
-                key={index}
-                icon={item.icon}
-                text={item.text}
-                index={index}
-              />
-            ))}
+            <StaggeredList className="flex flex-wrap justify-center gap-4" staggerDelay={0.2}>
+              {contactItems.map((item, index) => (
+                <ContactItem
+                  key={index}
+                  icon={item.icon}
+                  text={item.text}
+                  index={0}
+                />
+              ))}
+            </StaggeredList>
           </motion.div>
 
           <motion.div
@@ -112,32 +114,32 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
             transition={{ delay: 1 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <Button
+            <IconButton
+              icon={Brain}
               onClick={() => onSectionClick("research")}
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              <Brain className="h-4 w-4 mr-2" />
               View Research
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-primary text-primary hover:bg-primary/10"
+            </IconButton>
+            <IconButton
+              icon={Download}
               onClick={handleDownloadCV}
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Download CV
-            </Button>
-            <Button
               variant="outline"
               size="lg"
               className="border-primary text-primary hover:bg-primary/10"
-              onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali/", "_blank")}
             >
-              <Linkedin className="h-4 w-4 mr-2" />
+              Download CV
+            </IconButton>
+            <IconButton
+              icon={Linkedin}
+              onClick={() => window.open("https://www.linkedin.com/in/suryansh-sijwali/", "_blank")}
+              variant="outline"
+              size="lg"
+              className="border-primary text-primary hover:bg-primary/10"
+            >
               LinkedIn
-            </Button>
+            </IconButton>
           </motion.div>
 
           <ScrollIndicator targetId="about" />

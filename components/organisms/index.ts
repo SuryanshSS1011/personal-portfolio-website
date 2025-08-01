@@ -7,3 +7,6 @@ export { ActivitiesSection } from './activities-section'
 export { SkillsSection } from './skills-section'
 export { ProjectsSection } from './projects-section'
 export { Footer } from './footer'
+
+// Sections
+export { SectionWrapper } from './sections/section-wrapper'

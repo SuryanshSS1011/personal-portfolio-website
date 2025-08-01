@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, Badge } from "@/components/atoms"
-import { StatsCounter } from "@/components/molecules/stats-counter"
+import { StatsCounter, IconTextListItem } from "@/components/molecules"
+import { SectionWrapper } from "@/components/organisms"
 import { 
   GraduationCap, 
   Award, 
@@ -58,30 +59,8 @@ export const AboutSection = () => {
   ]
 
   return (
-    <section 
-      id="about" 
-      className="py-20"
-      aria-labelledby="about-heading"
-    >
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-4xl mx-auto"
-        >
-          <motion.h2
-            id="about-heading"
-            className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-            whileInView={{ scale: [0.8, 1.1, 1] }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            About Me
-          </motion.h2>
-
-          {/* Stats Section */}
+    <SectionWrapper id="about" title="About Me" maxWidth="4xl">
+      {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
             <StatsCounter end={3} label="Years Experience" suffix="+" />
             <StatsCounter end={5} label="Projects Completed" suffix="+" />
@@ -91,7 +70,8 @@ export const AboutSection = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Education Card */}
-            <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50">
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+              <Card className="group border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-500">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary">
                   <GraduationCap className="h-5 w-5" />
@@ -131,10 +111,12 @@ export const AboutSection = () => {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+              </Card>
+            </motion.div>
 
             {/* Achievements Card */}
-            <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50">
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+              <Card className="group border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-500">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary">
                   <Award className="h-5 w-5" />
@@ -142,29 +124,25 @@ export const AboutSection = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {achievements.map((achievement, index) => (
-                    <motion.div
+                    <IconTextListItem
                       key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors"
-                    >
-                      <achievement.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <div>
-                        <h3 className="font-semibold">{achievement.title}</h3>
-                        <p className="text-sm text-muted-foreground">{achievement.desc}</p>
-                      </div>
-                    </motion.div>
+                      icon={achievement.icon}
+                      title={achievement.title}
+                      description={achievement.desc}
+                      index={index}
+                      className="text-sm text-muted-foreground"
+                    />
                   ))}
                 </div>
               </CardContent>
-            </Card>
+              </Card>
+            </motion.div>
 
             {/* Outside Tech Card */}
-            <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50">
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ type: "spring", stiffness: 300 }}>
+              <Card className="group border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-500">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-primary">
                   <Coffee className="h-5 w-5" />
@@ -172,29 +150,22 @@ export const AboutSection = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {hobbies.map((hobby, index) => (
-                    <motion.div
+                    <IconTextListItem
                       key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      className="flex items-start gap-3 p-3 rounded-lg hover:bg-primary/5 transition-colors"
-                    >
-                      <hobby.icon className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <div>
-                        <h3 className="font-semibold">{hobby.title}</h3>
-                        <p className="text-sm text-muted-foreground">{hobby.desc}</p>
-                      </div>
-                    </motion.div>
+                      icon={hobby.icon}
+                      title={hobby.title}
+                      description={hobby.desc}
+                      index={index}
+                      className="text-sm text-muted-foreground"
+                    />
                   ))}
                 </div>
               </CardContent>
-            </Card>
+              </Card>
+            </motion.div>
           </div>
-        </motion.div>
-      </div>
-    </section>
+    </SectionWrapper>
   )
 }

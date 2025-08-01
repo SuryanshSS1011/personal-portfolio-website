@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, Badge } from "@/components/atoms"
+import { IconTextListItem } from "@/components/molecules"
 import { ExternalLink, Rocket } from "lucide-react"
 import { LucideIcon } from "lucide-react"
 
@@ -30,7 +31,7 @@ export const ProjectCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.2 }}
       viewport={{ once: true }}
-      whileHover={{ y: -10 }}
+      whileHover={{ scale: 1.02 }}
     >
       <Card className="group hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50 h-full">
         <CardHeader>
@@ -68,19 +69,15 @@ export const ProjectCard = ({
         </CardHeader>
         <CardContent>
           <p className="text-sm mb-4">{description}</p>
-          <div className="space-y-2 text-sm mb-4">
+          <div className="space-y-3 mb-4">
             {features.map((feature, featureIndex) => (
-              <motion.p
+              <IconTextListItem
                 key={featureIndex}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: featureIndex * 0.1 }}
-                viewport={{ once: true }}
-                className="flex items-start gap-2"
-              >
-                <Rocket className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                {feature}
-              </motion.p>
+                icon={Rocket}
+                title={feature}
+                index={featureIndex}
+                className="text-sm text-muted-foreground"
+              />
             ))}
           </div>
           <div className="flex flex-wrap gap-2">

@@ -8,3 +8,9 @@ export { ScrollIndicator } from './scroll-indicator'
 export { Badge } from './badge'
 export { Button } from './button'
 export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './card'
+
+// Typography
+export { SectionTitle } from './typography/section-title'
+
+// Buttons
+export { IconButton } from './buttons/icon-button'
