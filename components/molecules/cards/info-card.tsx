@@ -1,7 +1,7 @@
 "use client"
 
 import { ReactNode } from "react"
-import { motion } from "framer-motion"
+import { motion, TargetAndTransition } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms"
 import { LucideIcon } from "lucide-react"
 
@@ -10,7 +10,7 @@ interface InfoCardProps {
   icon: LucideIcon
   children: ReactNode
   animation?: {
-    whileHover?: object
+    whileHover?: TargetAndTransition
   }
   className?: string
 }

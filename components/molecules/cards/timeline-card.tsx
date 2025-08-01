@@ -1,17 +1,17 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, TargetAndTransition, Transition } from "framer-motion"
 import { Card, CardContent } from "@/components/atoms"
 
 interface TimelineCardProps {
   title: string
   date: string
   animation?: {
-    initial?: object
-    whileInView?: object
-    transition?: object
-    viewport?: object
-    whileHover?: object
+    initial?: TargetAndTransition
+    whileInView?: TargetAndTransition
+    transition?: Transition
+    viewport?: { once?: boolean; amount?: number }
+    whileHover?: TargetAndTransition
   }
   className?: string
 }

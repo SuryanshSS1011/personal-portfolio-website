@@ -1,7 +1,7 @@
 "use client"
 
 import { ReactNode } from "react"
-import { motion } from "framer-motion"
+import { motion, TargetAndTransition, Transition } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
 import { IconTextListItem } from "@/components/molecules"
 import { LucideIcon } from "lucide-react"
@@ -20,11 +20,11 @@ interface ContentCardProps {
   icon: LucideIcon
   index?: number
   animation?: {
-    initial?: object
-    animate?: object
-    transition?: object
-    whileHover?: object
-    viewport?: object
+    initial?: TargetAndTransition
+    animate?: TargetAndTransition
+    transition?: Transition
+    whileHover?: TargetAndTransition
+    viewport?: { once?: boolean; amount?: number }
   }
   className?: string
 }
