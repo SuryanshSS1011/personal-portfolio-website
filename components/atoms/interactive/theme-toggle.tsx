@@ -25,19 +25,19 @@ export const ThemeToggle = () => {
       {mounted ? (
         <div className="relative w-4 h-4">
           <Sun
-            className={`absolute h-4 w-4 transition-all duration-500 ${
-              theme === "dark" ? "opacity-0 rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
+            className={`absolute h-4 w-4 transition-all duration-300 ${
+              theme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-0"
             }`}
           />
           <Moon
-            className={`absolute h-4 w-4 transition-all duration-500 ${
-              theme === "dark" ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-0"
+            className={`absolute h-4 w-4 transition-all duration-300 ${
+              theme === "dark" ? "opacity-0 -rotate-90 scale-0" : "opacity-100 rotate-0 scale-100"
             }`}
           />
         </div>
       ) : (
         <div className="relative w-4 h-4">
-          <Sun className="absolute h-4 w-4" />
+          <div className="absolute h-4 w-4 animate-pulse bg-gray-300 dark:bg-gray-600 rounded-full" />
         </div>
       )}
       <span className="sr-only" suppressHydrationWarning>
