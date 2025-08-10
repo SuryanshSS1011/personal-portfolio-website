@@ -123,7 +123,7 @@ export const GlobalMusicPlayer = ({
             onPause={() => setIsPlaying(false)}
             crossOrigin="anonymous"
           >
-            <source src={`/audio/${currentTrack.filename}`} type="audio/mpeg" />
+            <source src={currentTrack.filename} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
 

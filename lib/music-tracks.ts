@@ -11,21 +11,21 @@ export const musicTracks: MusicTrack[] = [
     id: "autumn-scene",
     title: "Autumn Scene",
     artist: "Classical Piano",
-    filename: "autumn-scene.mp3",
+    filename: "https://cktnd0jibycpui0q.public.blob.vercel-storage.com/autumn-scene.mp3",
     duration: "3:24"
   },
   {
     id: "meadow-waltz",
     title: "Meadow Waltz", 
     artist: "Classical Piano Orchestra",
-    filename: "meadow-waltz.mp3",
+    filename: "https://cktnd0jibycpui0q.public.blob.vercel-storage.com/meadow-waltz.mp3",
     duration: "4:12"
   },
   {
     id: "mozart-symphony-40",
     title: "Symphony No. 40 in G minor",
     artist: "W.A. Mozart",
-    filename: "mozart-symphony-40.mp3",
+    filename: "https://cktnd0jibycpui0q.public.blob.vercel-storage.com/mozart-symphony-40.mp3",
     duration: "8:45"
   }
 ]
