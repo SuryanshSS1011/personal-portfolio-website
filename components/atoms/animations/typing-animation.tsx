@@ -6,9 +6,11 @@ import { motion } from "framer-motion"
 interface TypingAnimationProps {
   text: string
   className?: string
+  speed?: number
+  cursorSize?: "sm" | "md" | "lg" | "xl"
 }
 
-export const TypingAnimation = ({ text, className = "" }: TypingAnimationProps) => {
+export const TypingAnimation = ({ text, className = "", speed = 100, cursorSize = "md" }: TypingAnimationProps) => {
   const [displayText, setDisplayText] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0)
   const [mounted, setMounted] = useState(false)
@@ -22,7 +24,7 @@ export const TypingAnimation = ({ text, className = "" }: TypingAnimationProps) 
       const timeout = setTimeout(() => {
         setDisplayText((prev) => prev + text[currentIndex])
         setCurrentIndex((prev) => prev + 1)
-      }, 100)
+      }, speed)
       return () => clearTimeout(timeout)
     }
   }, [currentIndex, text, mounted])
@@ -34,7 +36,12 @@ export const TypingAnimation = ({ text, className = "" }: TypingAnimationProps) 
         <motion.span
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}
-          className="inline-block w-0.5 h-6 bg-primary ml-1"
+          className={`inline-block w-0.5 bg-primary ml-1 ${
+            cursorSize === "sm" ? "h-4" :
+            cursorSize === "md" ? "h-6" :
+            cursorSize === "lg" ? "h-8" :
+            cursorSize === "xl" ? "h-10" : "h-6"
+          }`}
         />
       )}
     </span>

@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/providers/theme-provider"
+import { MusicProvider } from "@/components/providers/music-provider"
+import { FloatingParticles } from "@/components/atoms/animations/floating-particles"
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -14,16 +16,21 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Suryansh Sijwali - Full-Stack Developer & AI Researcher",
-    template: "%s | Suryansh Sijwali"
+    default: "Suryansh Sijwali - Developer and Researcher",
+    template: "%s | Suryansh Sijwali - Developer and Researcher"
   },
-  description: "Full-Stack Developer, Multi-Domain AI Researcher, and Published Author at Penn State. Specializing in performance optimization, machine learning, and innovative web solutions.",
+  description: "Developer and Researcher at Penn State specializing in full-stack development, AI research, and systems thinking. Published author with expertise in performance optimization, machine learning, and innovative solutions.",
   keywords: [
     "Suryansh Sijwali",
+    "Developer",
+    "Researcher",
     "Full-Stack Developer",
     "AI Researcher", 
     "Machine Learning",
     "Penn State",
+    "Systems Thinker",
+    "Published Author",
+    "SaaS Designer",
     "Computer Science",
     "Physics",
     "React",
@@ -64,22 +71,22 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    title: "Suryansh Sijwali - Full-Stack Developer & AI Researcher",
-    description: "Full-Stack Developer, Multi-Domain AI Researcher, and Published Author at Penn State. Specializing in performance optimization, machine learning, and innovative web solutions.",
+    title: "Suryansh Sijwali - Developer and Researcher",
+    description: "Developer and Researcher at Penn State specializing in full-stack development, AI research, and systems thinking. Published author with expertise in performance optimization, machine learning, and innovative solutions.",
     siteName: "Suryansh Sijwali Portfolio",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Suryansh Sijwali - Full-Stack Developer & AI Researcher",
+        alt: "Suryansh Sijwali - Developer and Researcher",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Suryansh Sijwali - Full-Stack Developer & AI Researcher",
-    description: "Full-Stack Developer, Multi-Domain AI Researcher, and Published Author at Penn State.",
+    title: "Suryansh Sijwali - Developer and Researcher",
+    description: "Developer and Researcher at Penn State specializing in full-stack development, AI research, and systems thinking. Published author with expertise in innovative solutions.",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -130,9 +137,25 @@ export default function RootLayout({
           storageKey="suryansh-portfolio-theme"
           themes={['light', 'dark', 'system']}
         >
-          <div className="min-h-screen bg-background text-foreground transition-colors duration-200">{children}</div>
-          <Analytics />
-          <SpeedInsights />
+          <MusicProvider>
+            {/* Global floating particles */}
+            <FloatingParticles 
+              count={35}
+              className="z-[-10]"
+              colors={[
+                "hsl(var(--primary))/30",
+                "hsl(var(--secondary))/20", 
+                "hsl(var(--primary))/15",
+                "hsl(var(--secondary))/25"
+              ]}
+              sizeRange={[1, 4]}
+              opacityRange={[0.1, 0.3]}
+              durationRange={[20, 40]}
+            />
+            <div className="min-h-screen bg-background text-foreground transition-colors duration-200 relative">{children}</div>
+            <Analytics />
+            <SpeedInsights />
+          </MusicProvider>
         </ThemeProvider>
       </body>
     </html>

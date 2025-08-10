@@ -23,14 +23,15 @@ export const NavigationItem = ({
   isMobile = false,
   href
 }: NavigationItemProps) => {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
     if (href) {
       return // Let the Link handle navigation
     }
+    e.preventDefault()
     onClick(id)
   }
 
-  const buttonClassName = `flex items-center gap-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+  const buttonClassName = `flex items-center gap-2 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
     isActive
       ? "bg-primary text-primary-foreground shadow-lg"
       : "text-muted-foreground hover:text-primary hover:bg-primary/10"

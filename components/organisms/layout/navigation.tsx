@@ -4,6 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button, ThemeToggle, AnimationToggle } from "@/components/atoms"
 import { Menu, X } from "lucide-react"
+import Link from "next/link"
 import { NavigationItem } from "@/components/molecules"
 import { NavigationSection } from "@/types/navigation"
 
@@ -31,7 +32,7 @@ export const Navigation = ({
 
   return (
     <nav 
-      className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-primary/20 z-40"
+      className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-primary/20 z-50"
       role="navigation" 
       aria-label="Main navigation"
     >
