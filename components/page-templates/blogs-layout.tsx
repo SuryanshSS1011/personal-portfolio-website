@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Rocket, Users, Brain, Zap, Code, Target, Star, BookOpen } from "lucide-react"
+import { BookOpen, Home } from "lucide-react"
 import { 
   CustomCursor, 
   FloatingParticles, 
@@ -9,30 +9,18 @@ import {
 } from "@/components/atoms"
 import { 
   Navigation,
-  HeroSection,
-  AboutSection,
-  ResearchSection,
-  ExperienceSection,
-  ActivitiesSection,
-  SkillsSection,
-  ProjectsSection,
+  BlogsSection,
   Footer
 } from "@/components/organisms"
 import { NavigationSection } from "@/types/navigation"
 
-export const PortfolioLayout = () => {
-  const [activeSection, setActiveSection] = useState("hero")
+export const BlogsLayout = () => {
+  const [activeSection, setActiveSection] = useState("blogs")
   const [isPlaying, setIsPlaying] = useState(true)
 
   const sections: NavigationSection[] = [
-    { id: "hero", label: "Home", icon: Rocket },
-    { id: "about", label: "About", icon: Users },
-    { id: "research", label: "Research", icon: Brain },
-    { id: "experience", label: "Experience", icon: Zap },
-    { id: "projects", label: "Projects", icon: Code },
-    { id: "skills", label: "Skills", icon: Target },
-    { id: "activities", label: "Activities", icon: Star },
-    { id: "blogs", label: "Blog", icon: BookOpen, href: "/blogs" },
+    { id: "home", label: "Home", icon: Home, href: "/" },
+    { id: "blogs", label: "Blog", icon: BookOpen },
   ]
 
   useEffect(() => {
@@ -73,13 +61,9 @@ export const PortfolioLayout = () => {
         onToggleAnimation={() => setIsPlaying(!isPlaying)}
       />
 
-      <HeroSection onSectionClick={scrollToSection} />
-      <AboutSection />
-      <ResearchSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <SkillsSection />
-      <ActivitiesSection />
+      <div className="pt-16">
+        <BlogsSection />
+      </div>
       <Footer />
     </div>
   )

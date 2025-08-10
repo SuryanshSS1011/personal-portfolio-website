@@ -1,13 +1,41 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/atoms"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
 import { Tabs, TabsContent, TabsList, TabsTrigger, IconTextListItem } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
-import { Star, Code, Users, BookOpen } from "lucide-react"
+import { Star, Code, Users, BookOpen, Calendar, Atom } from "lucide-react"
 
 export const ActivitiesSection = () => {
   const leadershipActivities = [
+    {
+      title: "Education Committee Instructor",
+      org: "Quantum Student Society",
+      date: "Aug 2025 - Present",
+      badge: "upcoming",
+      items: [
+        "Design curriculum for quantum computing fundamentals workshops",
+        "Prepare hands-on tutorials using Qiskit and quantum simulators",
+        "Develop educational materials covering quantum algorithms and principles",
+        "Mentor students in quantum programming and theoretical concepts",
+        "Coordinate with faculty advisors on advanced quantum research topics",
+      ],
+      icon: Atom,
+    },
+    {
+      title: "Inter-Club Collaboration and Event Planning In-Charge",
+      org: "Penn State Chapters of ASME and IEEE",
+      date: "Jan 2025 - Present",
+      badge: "current",
+      items: [
+        "Coordinated joint technical workshops between IEEE and ASME student chapters",
+        "Organized interdisciplinary project showcases featuring engineering solutions",
+        "Facilitated networking events connecting mechanical and electrical engineering students",
+        "Managed event logistics and vendor coordination for collaborative competitions",
+        "Developed partnership agreements and resource sharing protocols between chapters",
+      ],
+      icon: Calendar,
+    },
     {
       title: "President",
       org: "Cyber Lions Club, Penn State Harrisburg",
@@ -93,6 +121,20 @@ export const ActivitiesSection = () => {
                   <CardTitle className="flex items-center gap-2 text-primary">
                     <activity.icon className="h-5 w-5" />
                     {activity.title}
+                    {activity.badge && (
+                      <Badge 
+                        variant="outline" 
+                        className={`ml-2 ${
+                          activity.badge === "upcoming" 
+                            ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
+                            : activity.badge === "current"
+                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                            : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
+                        }`}
+                      >
+                        {activity.badge}
+                      </Badge>
+                    )}
                   </CardTitle>
                   <CardDescription>
                     {activity.org} • {activity.date}
@@ -108,7 +150,7 @@ export const ActivitiesSection = () => {
                         index={itemIndex}
                         className="text-sm text-muted-foreground"
                       >
-                        {typeof item === 'string' ? undefined : item}
+                        {typeof item === 'string' ? undefined : <span className="font-semibold">{item}</span>}
                       </IconTextListItem>
                     ))}
                   </div>

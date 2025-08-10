@@ -2,7 +2,7 @@
 
 import { ProjectCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
-import { Brain, Users, Code } from "lucide-react"
+import { Brain, Users, Code, BookOpen } from "lucide-react"
 
 export const ProjectsSection = () => {
   const projects = [
@@ -44,6 +44,19 @@ export const ProjectsSection = () => {
       tags: ["Blockchain", "Web3", "Next.js", "Solidity"],
       icon: Code,
       url: "https://verichain-sage.vercel.app/",
+    },
+    {
+      title: "CollegeNotesOrg",
+      description:
+        "A centralized GitHub organization for managing college class notes, standardizing academic formats, and enabling collaborative learning through shared repositories.",
+      features: [
+        "Developed noteparser Python library for multi-format conversion (Markdown, LaTeX, HTML, PDF)",
+        "Implemented systematic naming conventions and repository structures for academic content",
+        "Created collaborative workflows using GitHub's version control for educational materials",
+      ],
+      tags: ["Education", "Python", "GitHub", "Open Source"],
+      icon: BookOpen,
+      url: "https://github.com/CollegeNotesOrg",
     },
   ]
 

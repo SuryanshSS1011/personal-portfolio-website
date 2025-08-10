@@ -104,7 +104,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="antialiased" suppressHydrationWarning>
       <head>
-        <style>{`
+        <style suppressHydrationWarning>{`
       .theme-transition {
         transition: background-color 0.2s ease, color 0.15s ease;
       }

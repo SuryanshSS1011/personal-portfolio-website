@@ -44,7 +44,7 @@ export const ExperienceSection = () => {
                 id="leechy-internship"
                 title="Software Engineer (Intern)"
                 subtitle="Leechy LLC"
-                date="Jun 2025 - Present (Remote)"
+                date="Jun 2025 - Present"
                 badge={{
                   text: "Current",
                   className: "bg-success/20 text-success border-success/30"

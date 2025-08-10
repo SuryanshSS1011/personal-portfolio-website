@@ -55,6 +55,7 @@ export const Navigation = ({
                 icon={section.icon}
                 isActive={activeSection === section.id}
                 onClick={handleSectionClick}
+                href={section.href}
               />
             ))}
           </div>
@@ -88,6 +89,7 @@ export const Navigation = ({
                     icon={section.icon}
                     isActive={activeSection === section.id}
                     onClick={handleSectionClick}
+                    href={section.href}
                     isMobile
                   />
                 ))}

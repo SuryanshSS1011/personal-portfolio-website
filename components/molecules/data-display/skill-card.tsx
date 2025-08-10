@@ -7,7 +7,7 @@ import { LucideIcon } from "lucide-react"
 
 interface SkillCardProps {
   title: string
-  skills: string[]
+  skills: { name: string; badge: string }[]
   icon: LucideIcon
 }
 
@@ -23,35 +23,36 @@ export const SkillCard = ({ title, skills, icon: Icon }: SkillCardProps) => {
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6 }}
       whileHover={{ scale: 1.02 }}
+      className="w-64 h-24"
     >
-      <Card className="group border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-primary">
-            <Icon className="h-5 w-5" />
+      <Card className="group border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-500 border-primary/20 hover:border-primary/50 h-full">
+        <CardHeader className="text-center pb-0">
+          <CardTitle className="flex items-center justify-center gap-1 text-primary text-xs">
+            <Icon className="h-3 w-3" />
             {title}
           </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
+        <CardContent className="pt-1">
+          <div className="flex flex-wrap gap-1.5 justify-center">
             {skills.map((skill, index) => (
               <motion.div
-                key={skill}
+                key={skill.name}
                 initial={{ opacity: 0, scale: 0 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
                 transition={{ delay: index * 0.1 }}
-                onHoverStart={() => setHoveredSkill(skill)}
+                viewport={{ once: true }}
+                onHoverStart={() => setHoveredSkill(skill.name)}
                 onHoverEnd={() => setHoveredSkill(null)}
+                whileHover={{ scale: 1.1 }}
               >
-                <Badge
-                  variant="secondary"
-                  className={`cursor-pointer transition-all duration-300 ${
-                    hoveredSkill === skill
-                      ? "bg-primary text-primary-foreground shadow-lg scale-110"
-                      : "hover:bg-primary/20"
-                  }`}
-                >
-                  {skill}
-                </Badge>
+                <img
+                  src={skill.badge}
+                  alt={skill.name}
+                  className="h-3.5 cursor-pointer transition-all duration-300"
+                  style={{
+                    filter: hoveredSkill === skill.name ? 'brightness(1.1) drop-shadow(0 4px 8px rgba(0,0,0,0.3))' : 'none'
+                  }}
+                />
               </motion.div>
             ))}
           </div>

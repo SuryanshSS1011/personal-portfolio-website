@@ -4,4 +4,5 @@ export interface NavigationSection {
   id: string
   label: string
   icon: LucideIcon
+  href?: string
 }

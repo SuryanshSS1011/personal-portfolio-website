@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { LucideIcon } from "lucide-react"
+import Link from "next/link"
 
 interface NavigationItemProps {
   id: string
@@ -10,6 +11,7 @@ interface NavigationItemProps {
   isActive: boolean
   onClick: (id: string) => void
   isMobile?: boolean
+  href?: string
 }
 
 export const NavigationItem = ({ 
@@ -18,36 +20,69 @@ export const NavigationItem = ({
   icon: Icon, 
   isActive, 
   onClick, 
-  isMobile = false 
+  isMobile = false,
+  href
 }: NavigationItemProps) => {
+  const handleClick = () => {
+    if (href) {
+      return // Let the Link handle navigation
+    }
+    onClick(id)
+  }
+
+  const buttonClassName = `flex items-center gap-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+    isActive
+      ? "bg-primary text-primary-foreground shadow-lg"
+      : "text-muted-foreground hover:text-primary hover:bg-primary/10"
+  } ${isMobile ? "py-2 px-4 rounded-md" : "px-4 py-2"}`
+
+  const content = (
+    <>
+      <Icon className="h-4 w-4" />
+      {label}
+    </>
+  )
+
+  if (href) {
+    if (isMobile) {
+      return (
+        <motion.div whileHover={{ x: 10 }}>
+          <Link href={href} className={buttonClassName}>
+            {content}
+          </Link>
+        </motion.div>
+      )
+    }
+
+    return (
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <Link href={href} className={buttonClassName}>
+          {content}
+        </Link>
+      </motion.div>
+    )
+  }
+
   if (isMobile) {
     return (
       <motion.button
-        onClick={() => onClick(id)}
-        className={`flex items-center gap-2 py-2 px-4 rounded-md transition-colors ${
-          isActive ? "bg-primary text-primary-foreground" : "hover:bg-primary/10"
-        }`}
+        onClick={handleClick}
+        className={buttonClassName}
         whileHover={{ x: 10 }}
       >
-        <Icon className="h-4 w-4" />
-        {label}
+        {content}
       </motion.button>
     )
   }
 
   return (
     <motion.button
-      onClick={() => onClick(id)}
-      className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-        isActive
-          ? "bg-primary text-primary-foreground shadow-lg"
-          : "text-muted-foreground hover:text-primary hover:bg-primary/10"
-      }`}
+      onClick={handleClick}
+      className={buttonClassName}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <Icon className="h-4 w-4" />
-      {label}
+      {content}
     </motion.button>
   )
 }
