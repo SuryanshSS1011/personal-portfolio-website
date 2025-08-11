@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { logger } from '@/lib/logger'
 
 export function middleware(request: NextRequest) {
-  // Log navigation for debugging
-  console.log('Navigation to:', request.nextUrl.pathname)
+  logger.info('Navigation request', {
+    component: 'middleware',
+    pathname: request.nextUrl.pathname,
+    method: request.method
+  })
   
   return NextResponse.next()
 }

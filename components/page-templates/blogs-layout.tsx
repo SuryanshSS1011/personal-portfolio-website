@@ -9,12 +9,17 @@ import {
 } from "@/components/atoms"
 import { 
   Navigation,
-  BlogsSection,
   Footer
 } from "@/components/organisms"
+import { BlogsSection } from "@/components/organisms/sections/blogs-section"
 import { NavigationSection } from "@/types/navigation"
+import type { BlogPostMeta } from "@/data/blog-posts"
 
-export const BlogsLayout = () => {
+interface BlogsLayoutProps {
+  blogPosts: BlogPostMeta[]
+}
+
+export const BlogsLayout = ({ blogPosts }: BlogsLayoutProps) => {
   const [activeSection, setActiveSection] = useState("blogs")
   const [isPlaying, setIsPlaying] = useState(true)
 
@@ -52,34 +57,7 @@ export const BlogsLayout = () => {
       <CustomCursor />
       
       {/* Enhanced blog-specific floating particles */}
-      <FloatingParticles 
-        count={45}
-        className="z-[-10]"
-        colors={[
-          "hsl(var(--primary))/20",
-          "hsl(var(--secondary))/15",
-          "hsl(var(--primary))/10",
-          "hsl(var(--secondary))/25",
-          "hsl(var(--muted-foreground))/8"
-        ]}
-        sizeRange={[1, 8]}
-        opacityRange={[0.1, 0.35]}
-        durationRange={[20, 45]}
-      />
-      
-      {isPlaying && (
-        <FloatingParticles 
-          count={25}
-          className="z-[-10]"
-          colors={[
-            "hsl(var(--primary))/40",
-            "hsl(var(--secondary))/30"
-          ]}
-          sizeRange={[2, 5]}
-          opacityRange={[0.2, 0.5]}
-          durationRange={[8, 18]}
-        />
-      )}
+      <FloatingParticles />
       
       <ProgressBar />
       
@@ -92,7 +70,7 @@ export const BlogsLayout = () => {
       />
 
       <div className="pt-16">
-        <BlogsSection />
+        <BlogsSection blogPosts={blogPosts} />
       </div>
       <Footer />
     </div>

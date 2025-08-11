@@ -1,0 +1,5 @@
+export { HeroSection } from './HeroSection'
+export { HeroBackground } from './HeroBackground'
+export { HeroMusicDisc } from './HeroMusicDisc'
+export { HeroButtonGroup } from './HeroButtonGroup'
+export { HeroContent } from './HeroContent'

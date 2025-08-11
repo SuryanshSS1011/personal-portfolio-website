@@ -1,0 +1,257 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { type MusicTrack } from "@/lib/music-tracks"
+import { MusicReactiveParticles } from "@/components/atoms"
+import { useAudioPlayer } from "@/hooks/useAudioPlayer"
+import { MusicPlayerHeader } from "./MusicPlayerHeader"
+import { MusicPlayerControls } from "./MusicPlayerControls"
+import { MusicPlayerPlaylist } from "./MusicPlayerPlaylist"
+import { ErrorBoundary } from "@/components/atoms/error-handling"
+import { logger } from "@/lib/logger"
+
+interface GlobalMusicPlayerProps {
+  isVisible: boolean
+  onClose: () => void
+  onPlayingChange: (playing: boolean) => void
+  onToggleMusicRef: (toggleFn: () => void) => void
+  onNextTrackRef: (nextFn: () => void) => void
+  onPreviousTrackRef: (previousFn: () => void) => void
+  onSelectTrackRef: (selectFn: (trackId: string) => void) => void
+  onTrackChange: (track: MusicTrack) => void
+  currentTrack: MusicTrack
+  allTracks: MusicTrack[]
+}
+
+export const GlobalMusicPlayer = ({ 
+  isVisible, 
+  onClose, 
+  onPlayingChange, 
+  onToggleMusicRef,
+  onNextTrackRef,
+  onPreviousTrackRef,
+  onSelectTrackRef,
+  onTrackChange,
+  currentTrack,
+  allTracks
+}: GlobalMusicPlayerProps) => {
+  const [isMinimized, setIsMinimized] = useState(false)
+  const [showPlaylist, setShowPlaylist] = useState(false)
+  
+  const {
+    isPlaying,
+    audioRef,
+    toggleMusic,
+    nextTrack,
+    previousTrack,
+    selectTrack,
+    stopAndClose,
+    handlePlay,
+    handlePause
+  } = useAudioPlayer()
+
+  // Notify parent component when playing state changes
+  useEffect(() => {
+    onPlayingChange(isPlaying)
+  }, [isPlaying, onPlayingChange])
+
+  // Handle track changes from parent
+  useEffect(() => {
+    if (audioRef.current && currentTrack) {
+      audioRef.current.load()
+      if (isPlaying) {
+        audioRef.current.play().catch((error) => {
+          logger.error('Failed to play after track change', { component: 'GlobalMusicPlayer' }, error)
+        })
+      }
+    }
+  }, [currentTrack, isPlaying])
+
+  // Expose functions to parent
+  useEffect(() => {
+    onToggleMusicRef(toggleMusic)
+    onNextTrackRef(() => {
+      nextTrack()
+    })
+    onPreviousTrackRef(() => {
+      previousTrack()
+    })
+    onSelectTrackRef((trackId: string) => {
+      selectTrack(trackId)
+      setShowPlaylist(false)
+    })
+  }, [onToggleMusicRef, onNextTrackRef, onPreviousTrackRef, onSelectTrackRef, toggleMusic, nextTrack, previousTrack, selectTrack, onTrackChange])
+
+  const handleClose = () => {
+    stopAndClose()
+    onClose()
+  }
+
+  const handleNextTrack = () => {
+    nextTrack()
+  }
+
+  const handlePreviousTrack = () => {
+    previousTrack()
+  }
+
+  const handleSelectTrack = (trackId: string) => {
+    selectTrack(trackId)
+    setShowPlaylist(false)
+  }
+
+  if (!currentTrack) return null
+
+  return (
+    <ErrorBoundary>
+      <AnimatePresence>
+        {isVisible && (
+          <>
+            {/* Hidden audio element */}
+            <audio
+              ref={audioRef}
+              loop
+              preload="metadata"
+              onPlay={handlePlay}
+              onPause={handlePause}
+              crossOrigin="anonymous"
+            >
+              <source src={currentTrack.filename} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+
+            {/* Music Player Popup */}
+            <motion.div
+              initial={{ opacity: 0, y: 100, scale: 0.8 }}
+              animate={{ 
+                opacity: 1, 
+                y: 0, 
+                scale: 1,
+                height: "auto"
+              }}
+              exit={{ opacity: 0, y: 100, scale: 0.8 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed bottom-6 right-6 z-50 bg-background/95 backdrop-blur-md border-2 border-primary/20 rounded-2xl shadow-2xl overflow-hidden"
+              style={{ width: isMinimized ? "400px" : "280px" }}
+            >
+              <MusicPlayerHeader
+                currentTrack={currentTrack}
+                isPlaying={isPlaying}
+                isMinimized={isMinimized}
+                showPlaylist={showPlaylist}
+                onToggleMusic={toggleMusic}
+                onToggleMinimized={() => setIsMinimized(!isMinimized)}
+                onTogglePlaylist={() => setShowPlaylist(!showPlaylist)}
+                onClose={handleClose}
+              />
+
+              {/* Controls - only show when not minimized */}
+              <AnimatePresence>
+                {!isMinimized && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <MusicPlayerControls
+                      isPlaying={isPlaying}
+                      showPlaylist={showPlaylist}
+                      onToggleMusic={toggleMusic}
+                      onPreviousTrack={handlePreviousTrack}
+                      onNextTrack={handleNextTrack}
+                      onTogglePlaylist={() => setShowPlaylist(!showPlaylist)}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              <MusicPlayerPlaylist
+                allTracks={allTracks}
+                currentTrack={currentTrack}
+                isPlaying={isPlaying}
+                showPlaylist={showPlaylist}
+                onSelectTrack={handleSelectTrack}
+              />
+
+              {/* Enhanced floating particles when playing */}
+              {isPlaying && (
+                <>
+                  {/* Music-reactive floating particles */}
+                  <MusicReactiveParticles 
+                    count={20}
+                    musicReactive={true}
+                    isPlaying={isPlaying}
+                    className="absolute inset-0 z-10"
+                    colors={[
+                      "hsl(var(--primary))/60",
+                      "hsl(var(--secondary))/50",
+                      "hsl(var(--primary))/40",
+                      "hsl(var(--secondary))/70"
+                    ]}
+                    sizeRange={[2, 6]}
+                    opacityRange={[0.4, 0.8]}
+                    durationRange={[3, 8]}
+                  />
+                  
+                  {/* Original floating music notes */}
+                  {!isMinimized && (
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden z-20">
+                      {[...Array(5)].map((_, i) => (
+                        <motion.div
+                          key={`floating-note-${i}`}
+                          className="absolute text-primary/40 text-xs"
+                          initial={{ 
+                            x: "50%", 
+                            y: "100%",
+                            opacity: 0
+                          }}
+                          animate={{
+                            x: `${15 + i * 20}%`,
+                            y: "-20%",
+                            opacity: [0, 1, 0],
+                            rotate: [0, 180, 360]
+                          }}
+                          transition={{
+                            duration: 2 + i * 0.3,
+                            repeat: Infinity,
+                            delay: i * 0.5,
+                            ease: "easeOut"
+                          }}
+                        >
+                          {['♪', '♫', '♬', '♩', '♭'][i % 5]}
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </motion.div>
+            
+            {/* Global music-reactive particles that emanate from the player */}
+            {isPlaying && (
+              <div className="fixed inset-0 pointer-events-none z-40">
+                <MusicReactiveParticles 
+                  count={15}
+                  musicReactive={true}
+                  isPlaying={isPlaying}
+                  colors={[
+                    "hsl(var(--primary))/30",
+                    "hsl(var(--secondary))/25",
+                    "hsl(var(--primary))/20",
+                    "hsl(var(--secondary))/35"
+                  ]}
+                  sizeRange={[3, 10]}
+                  opacityRange={[0.2, 0.6]}
+                  durationRange={[5, 15]}
+                />
+              </div>
+            )}
+          </>
+        )}
+      </AnimatePresence>
+    </ErrorBoundary>
+  )
+}

@@ -6,10 +6,13 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
 import { SectionWrapper } from "@/components/organisms"
 import { BookOpen, Code, Brain, Zap, Clock, User, ArrowRight, Filter, X, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react"
-import { blogPosts } from "@/data/blog-posts"
-import type { BlogPost } from "@/data/blog-posts"
+import type { BlogPostMeta } from "@/data/blog-posts"
 
-export const BlogsSection = () => {
+interface BlogsSectionProps {
+  blogPosts: BlogPostMeta[]
+}
+
+export const BlogsSection = ({ blogPosts }: BlogsSectionProps) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("All")
   const [selectedTag, setSelectedTag] = useState<string>("")
   const [sortBy, setSortBy] = useState<string>("newest")
@@ -59,7 +62,7 @@ export const BlogsSection = () => {
     setSortBy("newest")
   }
 
-  const getCategoryColor = (category: BlogPost["category"]) => {
+  const getCategoryColor = (category: BlogPostMeta["category"]) => {
     switch (category) {
       case "Research":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"

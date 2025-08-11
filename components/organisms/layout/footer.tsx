@@ -62,7 +62,7 @@ export const Footer = () => {
                 width="100%"
                 height="96"
                 className="rounded-lg border-2 border-yellow-400"
-                allowFullScreen=""
+                allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="State College, PA Location"
