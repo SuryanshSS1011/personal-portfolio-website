@@ -13,7 +13,7 @@ import {
 } from "@/components/organisms"
 import { BlogsSection } from "@/components/organisms/sections/blogs-section"
 import { NavigationSection } from "@/types/navigation"
-import type { BlogPostMeta } from "@/data/blog-posts"
+import type { BlogPostMeta } from "@/types/blog"
 
 interface BlogsLayoutProps {
   blogPosts: BlogPostMeta[]

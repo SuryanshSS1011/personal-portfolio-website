@@ -3,11 +3,10 @@ id: "verichain-to-attestr-protocol"
 title: "VeriChain is now Attestr Protocol: Expanding Beyond Academic Credentials"
 excerpt: "Announcing the evolution of VeriChain into Attestr Protocol - a universal verification infrastructure that enables any entity to issue, verify, and manage attestations across all domains on the blockchain."
 date: "2025-08-12"
-readTime: "2 min read"
-tags: ["Blockchain", "Web3", "DeFi", "Attestations", "Protocol", "Decentralization"]
+lastModified: "2025-08-12"
+readTime: "8 min read"
+tags: ["Blockchain", "Web3", "DeFi", "Attestations", "Protocol", "Decentralization", "Smart Contracts", "Identity"]
 category: "Development"
-featured: true
-tableOfContents: true
 author:
   name: "Suryansh Singh"
   bio: "Full-stack developer, researcher, and technology enthusiast focused on building impactful solutions."
@@ -17,8 +16,14 @@ author:
     linkedin: "https://linkedin.com/in/suryanshss"
     twitter: "https://twitter.com/suryanshss"
 seo:
-  metaDescription: "Learn about the evolution of VeriChain into Attestr Protocol - a universal verification infrastructure for Web3 attestations across all domains."
-  keywords: ["Blockchain", "Web3", "DeFi", "Attestations", "Protocol", "Decentralization", "VeriChain", "Attestr"]
+  metaTitle: "VeriChain Evolution: Attestr Protocol - Universal Web3 Verification Infrastructure"
+  metaDescription: "Learn how VeriChain evolved into Attestr Protocol, a universal blockchain-based verification infrastructure supporting multi-chain attestations, reputation systems, and AI-powered fraud detection."
+  keywords: ["Blockchain", "Web3", "DeFi", "Attestations", "Protocol", "Decentralization", "Smart Contracts", "Identity", "Verification", "Trust"]
+  canonicalUrl: "https://suryansh-sijwali-portfolio-suryanshss1011s-projects.vercel.app/blogs/verichain-to-attestr-protocol"
+featured: true
+draft: false
+tableOfContents: true
+relatedPosts: ["blockchain-credential-verification"]
 ---
 
 When we launched VeriChain, our vision was focused on solving the academic credential verification problem. However, as we engaged with users and explored the broader implications of our technology, we realized that the need for trusted, verifiable attestations extends far beyond education. Today, we're excited to announce that VeriChain has evolved into **Attestr Protocol** - a universal verification infrastructure for Web3.
@@ -35,49 +40,7 @@ This evolution isn't just about expanding scope—it's about recognizing that tr
 
 The technical evolution has been significant. We've redesigned our smart contracts to support customizable attestation templates, enabling organizations to define their own verification requirements. The new `AttestationRegistry` contract (formerly `CertificateIssuance`) now supports:
 
-<CodeBlock language="solidity" title="AttestationRegistry.sol">
-{`pragma solidity ^0.8.19;
-
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
-
-contract AttestationRegistry is AccessControl, EIP712 {
-    bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
-    
-    struct Attestation {
-        bytes32 schemaId;
-        address issuer;
-        address recipient;
-        bytes data;
-        uint256 timestamp;
-        uint256 expirationTime;
-        bool revoked;
-    }
-    
-    mapping(bytes32 => Attestation) public attestations;
-    mapping(address => uint256) public issuerReputation;
-    
-    // Batch operations for enterprise deployments
-    function batchAttest(
-        bytes32[] calldata schemaIds,
-        address[] calldata recipients,
-        bytes[] calldata data
-    ) external onlyRole(ISSUER_ROLE) {
-        require(schemaIds.length == recipients.length, "Array length mismatch");
-        // Implementation for batch attestations
-    }
-    
-    // EIP-712 signatures for gasless transactions
-    function attestWithSignature(
-        bytes32 schemaId,
-        address recipient,
-        bytes calldata data,
-        bytes calldata signature
-    ) external {
-        // Verify EIP-712 signature and process attestation
-    }
-}`}
-</CodeBlock>
+The new architecture supports **customizable attestation schemas**, enabling organizations to define verification requirements specific to their use cases. Key improvements include batch operations for enterprise-scale deployments, EIP-712 signatures for gasless transactions, and role-based access control for complex organizational structures.
 
 Key improvements include:
 - **Batch operations** for enterprise-scale deployments
@@ -88,82 +51,7 @@ Key improvements include:
 
 One of our most exciting additions is the reputation system. Attesters build credibility over time, and attestations carry weight based on the issuer's reputation. This creates a self-regulating ecosystem where quality and trust are rewarded.
 
-<InteractiveDemo
-  title="Reputation Score Visualization"
-  description="See how issuer reputation affects attestation weight"
-  code={`const ReputationDemo = () => {
-  const [issuerScore, setIssuerScore] = useState(75)
-  
-  const getReputationLevel = (score) => {
-    if (score >= 90) return { level: 'Platinum', color: 'bg-purple-500' }
-    if (score >= 75) return { level: 'Gold', color: 'bg-yellow-500' }
-    if (score >= 50) return { level: 'Silver', color: 'bg-gray-400' }
-    return { level: 'Bronze', color: 'bg-orange-600' }
-  }
-  
-  const reputation = getReputationLevel(issuerScore)
-  
-  return (
-    <div className="p-4 border rounded-lg">
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">
-          Issuer Reputation Score: {issuerScore}
-        </label>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={issuerScore}
-          onChange={(e) => setIssuerScore(parseInt(e.target.value))}
-          className="w-full"
-        />
-      </div>
-      <div className={\`p-3 rounded text-white text-center \${reputation.color}\`}>
-        {reputation.level} Issuer
-      </div>
-      <div className="mt-2 text-sm text-gray-600">
-        Attestation Weight: {Math.floor(issuerScore * 1.2)}%
-      </div>
-    </div>
-  )
-}`}
-  component={() => {
-    const [issuerScore, setIssuerScore] = React.useState(75)
-    
-    const getReputationLevel = (score) => {
-      if (score >= 90) return { level: 'Platinum', color: 'bg-purple-500' }
-      if (score >= 75) return { level: 'Gold', color: 'bg-yellow-500' }
-      if (score >= 50) return { level: 'Silver', color: 'bg-gray-400' }
-      return { level: 'Bronze', color: 'bg-orange-600' }
-    }
-    
-    const reputation = getReputationLevel(issuerScore)
-    
-    return (
-      <div className="p-4 border rounded-lg">
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2">
-            Issuer Reputation Score: {issuerScore}
-          </label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={issuerScore}
-            onChange={(e) => setIssuerScore(parseInt(e.target.value))}
-            className="w-full"
-          />
-        </div>
-        <div className={`p-3 rounded text-white text-center ${reputation.color}`}>
-          {reputation.level} Issuer
-        </div>
-        <div className="mt-2 text-sm text-gray-600">
-          Attestation Weight: {Math.floor(issuerScore * 1.2)}%
-        </div>
-      </div>
-    )
-  }}
-/>
+The reputation system works by tracking issuer performance over time. High-reputation issuers (Platinum level) have their attestations weighted more heavily in verification processes, while new or low-performing issuers start with basic Bronze status and must build credibility through consistent, accurate attestations.
 
 We've also implemented **AI-powered fraud detection** (currently in beta) that helps identify suspicious patterns and potential forgeries.
 

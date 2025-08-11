@@ -4,14 +4,17 @@ import { motion } from "framer-motion"
 import { ArrowLeft, Clock, User, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { Badge, CustomCursor } from "@/components/atoms"
-import type { BlogPost } from "@/data/blog-posts"
+import { MDXRenderer } from "@/components/organisms/blog/MDXRenderer"
+import type { BlogPostContent, BlogPostMeta } from "@/types/blog"
 
 interface BlogPostLayoutProps {
-  post: BlogPost
+  postContent: BlogPostContent
 }
 
-export const BlogPostLayout = ({ post }: BlogPostLayoutProps) => {
-  const getCategoryColor = (category: BlogPost["category"]) => {
+export const BlogPostLayout = ({ postContent }: BlogPostLayoutProps) => {
+  const { meta: post, content } = postContent
+  
+  const getCategoryColor = (category: BlogPostMeta["category"]) => {
     switch (category) {
       case "Research":
         return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
@@ -77,19 +80,13 @@ export const BlogPostLayout = ({ post }: BlogPostLayoutProps) => {
               </p>
             </header>
 
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              {post.content.map((paragraph, index) => (
-                <motion.p
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="mb-6 leading-relaxed"
-                >
-                  {paragraph}
-                </motion.p>
-              ))}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <MDXRenderer content={content} />
+            </motion.div>
 
             <footer className="mt-12 pt-8 border-t border-primary/10">
               <div className="flex flex-wrap gap-2">

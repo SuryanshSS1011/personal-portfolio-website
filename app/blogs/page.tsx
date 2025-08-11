@@ -1,5 +1,5 @@
 import { BlogsLayout } from "@/components/page-templates/blogs-layout"
-import { blogPosts } from "@/data/blog-posts"
+import { getAllBlogPosts } from "@/lib/blog-utils"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -13,34 +13,8 @@ export const metadata: Metadata = {
   },
 }
 
-export default function BlogsPage() {
-  // Convert legacy posts to new format for compatibility
-  const convertedPosts = blogPosts.map(post => ({
-    id: post.id,
-    title: post.title,
-    excerpt: post.excerpt,
-    date: post.date,
-    lastModified: post.date,
-    readTime: post.readTime,
-    tags: post.tags,
-    category: post.category,
-    author: {
-      name: "Suryansh Singh",
-      bio: "Developer and researcher",
-      avatar: "/images/profile.jpg",
-      social: {
-        github: "https://github.com/suryanshss",
-        linkedin: "https://linkedin.com/in/suryanshss",
-      }
-    },
-    seo: {
-      keywords: post.tags,
-      metaDescription: post.excerpt,
-    },
-    featured: false,
-    draft: false,
-    tableOfContents: false,
-  }))
+export default async function BlogsPage() {
+  const posts = await getAllBlogPosts()
   
-  return <BlogsLayout blogPosts={convertedPosts} />
+  return <BlogsLayout blogPosts={posts} />
 }

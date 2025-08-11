@@ -1,15 +1,8 @@
-"use client"
-
 import React from 'react'
 import { MDXComponents } from 'mdx/types'
 import { CodeBlock } from '@/components/atoms/blog/CodeBlock'
 import { Callout } from '@/components/atoms/blog/Callout'
 import { InteractiveDemo } from '@/components/atoms/blog/InteractiveDemo'
-
-// Make React available globally for MDX
-if (typeof window !== 'undefined') {
-  (window as any).React = React
-}
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {

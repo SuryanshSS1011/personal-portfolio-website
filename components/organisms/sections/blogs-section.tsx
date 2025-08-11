@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
 import { SectionWrapper } from "@/components/organisms"
 import { BookOpen, Code, Brain, Zap, Clock, User, ArrowRight, Filter, X, ArrowUpDown, ChevronDown, ChevronUp } from "lucide-react"
-import type { BlogPostMeta } from "@/data/blog-posts"
+import type { BlogPostMeta } from "@/types/blog"
 
 interface BlogsSectionProps {
   blogPosts: BlogPostMeta[]

@@ -1,6 +1,6 @@
 "use client"
 
-import { BlogPostMeta } from '@/data/blog-posts'
+import { BlogPostMeta } from '@/types/blog'
 import { BlogPostHeader } from '@/components/molecules/blog/BlogPostHeader'
 import { BlogPostContent } from '@/components/molecules/blog/BlogPostContent'
 import { BlogPostFooter } from '@/components/molecules/blog/BlogPostFooter'

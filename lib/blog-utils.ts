@@ -1,4 +1,8 @@
-import { BlogPostMeta, BlogPostContent, blogPosts } from '@/data/blog-posts'
+import { BlogPostMeta, BlogPostContent } from '@/types/blog'
+import fs from 'fs'
+import path from 'path'
+import { compileMDX } from 'next-mdx-remote/rsc'
+import matter from 'gray-matter'
 
 export interface BlogFilters {
   category?: string
@@ -12,33 +16,121 @@ export interface BlogSortOptions {
   order: 'asc' | 'desc'
 }
 
+const BLOG_CONTENT_PATH = path.join(process.cwd(), 'content/blog')
+
 /**
- * Get all blog post metadata
+ * Get all MDX blog post filenames
  */
-export const getAllBlogPosts = (): BlogPostMeta[] => {
-  // For now, return converted legacy posts
-  // In the future, this will load from MDX files
-  return blogPosts.map(convertLegacyPost)
+const getMDXFiles = (): string[] => {
+  try {
+    return fs.readdirSync(BLOG_CONTENT_PATH)
+      .filter(file => file.endsWith('.mdx'))
+      .map(file => file.replace('.mdx', ''))
+  } catch (error) {
+    console.warn('Could not read blog content directory')
+    return []
+  }
 }
 
 /**
- * Get blog post by ID
+ * Load blog post metadata from MDX file
  */
-export const getBlogPostById = (id: string): BlogPostContent | null => {
-  const post = blogPosts.find(p => p.id === id)
-  if (!post) return null
+const loadBlogPostFromMDX = async (slug: string): Promise<BlogPostMeta | null> => {
+  try {
+    const filePath = path.join(BLOG_CONTENT_PATH, `${slug}.mdx`)
+    const fileContent = fs.readFileSync(filePath, 'utf8')
+    const { data: frontmatter } = matter(fileContent)
+    
+    // Convert frontmatter to BlogPostMeta format
+    return {
+      id: slug,
+      title: frontmatter.title || 'Untitled',
+      excerpt: frontmatter.excerpt || '',
+      date: frontmatter.date || new Date().toISOString().split('T')[0],
+      lastModified: frontmatter.lastModified || frontmatter.date,
+      readTime: frontmatter.readTime || '5 min read',
+      tags: frontmatter.tags || [],
+      category: frontmatter.category || 'Development',
+      author: frontmatter.author || {
+        name: 'Suryansh Singh',
+        bio: 'Full-stack developer, researcher, and technology enthusiast focused on building impactful solutions.',
+        avatar: '/images/profile.jpg',
+        social: {
+          github: 'https://github.com/suryanshss',
+          linkedin: 'https://linkedin.com/in/suryanshss',
+          twitter: 'https://twitter.com/suryanshss'
+        }
+      },
+      seo: frontmatter.seo || {
+        keywords: frontmatter.tags || [],
+        metaDescription: frontmatter.excerpt || ''
+      },
+      series: frontmatter.series,
+      featured: frontmatter.featured || false,
+      draft: frontmatter.draft || false,
+      tableOfContents: frontmatter.tableOfContents || false,
+      relatedPosts: frontmatter.relatedPosts
+    }
+  } catch (error) {
+    console.error(`Error loading blog post ${slug}:`, error)
+    return null
+  }
+}
+
+/**
+ * Get all blog post metadata
+ */
+export const getAllBlogPosts = async (): Promise<BlogPostMeta[]> => {
+  const mdxFiles = getMDXFiles()
+  const mdxPosts: BlogPostMeta[] = []
   
-  return convertLegacyPostToContent(post)
+  for (const slug of mdxFiles) {
+    const post = await loadBlogPostFromMDX(slug)
+    if (post && !post.draft) {
+      mdxPosts.push(post)
+    }
+  }
+  
+  return mdxPosts
+}
+
+/**
+ * Load blog post content from MDX file
+ */
+export const getBlogPostById = async (id: string): Promise<BlogPostContent | null> => {
+  try {
+    const filePath = path.join(BLOG_CONTENT_PATH, `${id}.mdx`)
+    
+    if (!fs.existsSync(filePath)) {
+      return null
+    }
+    
+    const fileContent = fs.readFileSync(filePath, 'utf8')
+    const { data: frontmatter, content } = matter(fileContent)
+    
+    const meta = await loadBlogPostFromMDX(id)
+    if (!meta) return null
+    
+    return {
+      meta,
+      content,
+      media: frontmatter.media,
+      interactive: frontmatter.interactive
+    }
+  } catch (error) {
+    console.error(`Error loading blog post content for ${id}:`, error)
+    return null
+  }
 }
 
 /**
  * Get filtered and sorted blog posts
  */
-export const getFilteredBlogPosts = (
+export const getFilteredBlogPosts = async (
   filters: BlogFilters = {},
   sort: BlogSortOptions = { sortBy: 'date', order: 'desc' }
-): BlogPostMeta[] => {
-  let posts = getAllBlogPosts()
+): Promise<BlogPostMeta[]> => {
+  let posts = await getAllBlogPosts()
 
   // Apply filters
   if (filters.category) {
@@ -99,17 +191,18 @@ export const getFilteredBlogPosts = (
 /**
  * Get related blog posts based on tags and category
  */
-export const getRelatedBlogPosts = (
+export const getRelatedBlogPosts = async (
   postId: string, 
   limit: number = 3
-): BlogPostMeta[] => {
-  const currentPost = blogPosts.find(p => p.id === postId)
+): Promise<BlogPostMeta[]> => {
+  const allPosts = await getAllBlogPosts()
+  const currentPost = allPosts.find(p => p.id === postId)
   if (!currentPost) return []
 
-  const allPosts = getAllBlogPosts().filter(p => p.id !== postId)
+  const otherPosts = allPosts.filter(p => p.id !== postId)
   
   // Score posts based on shared tags and category
-  const scoredPosts = allPosts.map(post => {
+  const scoredPosts = otherPosts.map(post => {
     let score = 0
     
     // Same category gets higher score
@@ -133,9 +226,10 @@ export const getRelatedBlogPosts = (
 /**
  * Get all unique tags from blog posts
  */
-export const getAllTags = (): string[] => {
+export const getAllTags = async (): Promise<string[]> => {
+  const posts = await getAllBlogPosts()
   const tagSet = new Set<string>()
-  blogPosts.forEach(post => {
+  posts.forEach(post => {
     post.tags.forEach(tag => tagSet.add(tag))
   })
   return Array.from(tagSet).sort()
@@ -144,9 +238,10 @@ export const getAllTags = (): string[] => {
 /**
  * Get all categories from blog posts
  */
-export const getAllCategories = (): string[] => {
+export const getAllCategories = async (): Promise<string[]> => {
+  const posts = await getAllBlogPosts()
   const categorySet = new Set<string>()
-  blogPosts.forEach(post => {
+  posts.forEach(post => {
     categorySet.add(post.category)
   })
   return Array.from(categorySet).sort()
@@ -186,49 +281,3 @@ export const formatBlogDate = (
   return new Date(dateString).toLocaleDateString('en-US', options)
 }
 
-/**
- * Convert legacy blog post to new format
- */
-const convertLegacyPost = (legacyPost: any): BlogPostMeta => {
-  return {
-    id: legacyPost.id,
-    title: legacyPost.title,
-    excerpt: legacyPost.excerpt,
-    date: legacyPost.date,
-    readTime: legacyPost.readTime,
-    tags: legacyPost.tags,
-    category: legacyPost.category,
-    author: {
-      name: 'Suryansh Singh',
-      bio: 'Full-stack developer, researcher, and technology enthusiast focused on building impactful solutions.',
-      avatar: '/images/profile.jpg', // You'll need to add this image
-      social: {
-        github: 'https://github.com/suryanshss',
-        linkedin: 'https://linkedin.com/in/suryanshss',
-        twitter: 'https://twitter.com/suryanshss'
-      }
-    },
-    seo: {
-      keywords: legacyPost.tags,
-      metaDescription: legacyPost.excerpt
-    },
-    featured: false,
-    draft: false,
-    tableOfContents: true
-  }
-}
-
-/**
- * Convert legacy blog post to content format
- */
-const convertLegacyPostToContent = (legacyPost: any): BlogPostContent => {
-  const meta = convertLegacyPost(legacyPost)
-  
-  // Convert content array to MDX string
-  const mdxContent = legacyPost.content.join('\\n\\n')
-  
-  return {
-    meta,
-    content: mdxContent
-  }
-}

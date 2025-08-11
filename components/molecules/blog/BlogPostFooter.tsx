@@ -1,6 +1,6 @@
 "use client"
 
-import { BlogPostMeta } from '@/data/blog-posts'
+import { BlogPostMeta } from '@/types/blog'
 import { Share2, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'

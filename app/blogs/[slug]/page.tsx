@@ -1,5 +1,5 @@
 import { BlogPostLayout } from "@/components/page-templates/blog-post-layout"
-import { blogPosts } from "@/data/blog-posts"
+import { getAllBlogPosts, getBlogPostById } from "@/lib/blog-utils"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 
@@ -10,41 +10,44 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
+  const posts = await getAllBlogPosts()
+  return posts.map((post) => ({
     slug: post.id,
   }))
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = blogPosts.find((p) => p.id === params.slug)
+  const postContent = await getBlogPostById(params.slug)
   
-  if (!post) {
+  if (!postContent) {
     return {
       title: "Blog Post Not Found",
       description: "The requested blog post could not be found."
     }
   }
 
+  const { meta } = postContent
+
   return {
-    title: post.title,
-    description: post.excerpt,
-    keywords: post.tags,
+    title: meta.title,
+    description: meta.excerpt,
+    keywords: meta.tags,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: meta.title,
+      description: meta.excerpt,
       type: "article",
-      publishedTime: post.date,
-      tags: post.tags,
+      publishedTime: meta.date,
+      tags: meta.tags,
     },
   }
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = blogPosts.find((p) => p.id === params.slug)
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+  const postContent = await getBlogPostById(params.slug)
 
-  if (!post) {
+  if (!postContent) {
     notFound()
   }
 
-  return <BlogPostLayout post={post} />
+  return <BlogPostLayout postContent={postContent} />
 }

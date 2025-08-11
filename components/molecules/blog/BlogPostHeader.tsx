@@ -1,6 +1,6 @@
 "use client"
 
-import { BlogPostMeta } from '@/data/blog-posts'
+import { BlogPostMeta } from '@/types/blog'
 import { CalendarDays, Clock, User, Tag } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
