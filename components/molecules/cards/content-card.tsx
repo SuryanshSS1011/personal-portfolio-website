@@ -1,10 +1,11 @@
 "use client"
 
-import { ReactNode } from "react"
+import { ReactNode, memo } from "react"
 import { motion, TargetAndTransition, Transition } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
 import { IconTextListItem } from "@/components/molecules"
 import { LucideIcon } from "lucide-react"
+import { CARD_STYLES, getCardAnimation } from "@/lib/shared-animations"
 
 interface ContentCardProps {
   id?: string
@@ -29,7 +30,7 @@ interface ContentCardProps {
   className?: string
 }
 
-export const ContentCard = ({
+export const ContentCard = memo(({
   id,
   title,
   subtitle,
@@ -38,12 +39,7 @@ export const ContentCard = ({
   items,
   icon: ItemIcon,
   index = 0,
-  animation = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, delay: index * 0.1 },
-    whileHover: { scale: 1.02 }
-  },
+  animation = getCardAnimation(index),
   className = ""
 }: ContentCardProps) => {
   const displayText = subtitle && date ? `${subtitle} • ${date}` : subtitle || date || ""
@@ -59,7 +55,7 @@ export const ContentCard = ({
     >
       <Card 
         id={id}
-        className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50"
+        className={CARD_STYLES.interactive}
       >
         <CardHeader>
           <div className="flex justify-between items-start">
@@ -92,4 +88,6 @@ export const ContentCard = ({
       </Card>
     </motion.div>
   )
-}
+})
+
+ContentCard.displayName = "ContentCard"

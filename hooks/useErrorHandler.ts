@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react"
+import { logger } from "@/lib/logger"
 
 export interface ErrorState {
   error: Error | null
@@ -16,7 +17,7 @@ export const useErrorHandler = () => {
     
     // Log error for development
     if (process.env.NODE_ENV === 'development') {
-      console.error('Error caught by useErrorHandler:', errorObj)
+      logger.error('Error caught by useErrorHandler', { component: 'useErrorHandler' }, errorObj)
     }
 
     setErrorState({

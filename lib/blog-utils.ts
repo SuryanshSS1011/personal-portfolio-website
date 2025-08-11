@@ -3,6 +3,7 @@ import fs from 'fs'
 import path from 'path'
 import { compileMDX } from 'next-mdx-remote/rsc'
 import matter from 'gray-matter'
+import { logger } from '@/lib/logger'
 
 export interface BlogFilters {
   category?: string
@@ -72,7 +73,7 @@ const loadBlogPostFromMDX = async (slug: string): Promise<BlogPostMeta | null> =
       relatedPosts: frontmatter.relatedPosts
     }
   } catch (error) {
-    console.error(`Error loading blog post ${slug}:`, error)
+    logger.error(`Error loading blog post ${slug}`, { component: 'blog-utils', slug }, error)
     return null
   }
 }
@@ -118,7 +119,7 @@ export const getBlogPostById = async (id: string): Promise<BlogPostContent | nul
       interactive: frontmatter.interactive
     }
   } catch (error) {
-    console.error(`Error loading blog post content for ${id}:`, error)
+    logger.error(`Error loading blog post content for ${id}`, { component: 'blog-utils', id }, error)
     return null
   }
 }

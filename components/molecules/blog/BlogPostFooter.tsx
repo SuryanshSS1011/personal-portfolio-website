@@ -5,6 +5,7 @@ import { Share2, Twitter, Linkedin, Link as LinkIcon } from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
+import { logger } from '@/lib/logger'
 
 interface BlogPostFooterProps {
   meta: BlogPostMeta
@@ -28,7 +29,7 @@ export const BlogPostFooter = ({
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      console.error('Failed to copy URL:', err)
+      logger.error('Failed to copy URL', { component: 'BlogPostFooter' }, err)
     }
   }
 

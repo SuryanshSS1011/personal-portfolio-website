@@ -7,6 +7,7 @@ import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeSlug from 'rehype-slug'
+import { ErrorBoundary } from '@/components/atoms/error-handling'
 
 interface MDXRendererProps {
   content: string
@@ -117,5 +118,13 @@ export const MDXRenderer = async ({ content }: MDXRendererProps) => {
       "
       dangerouslySetInnerHTML={{ __html: htmlContent }}
     />
+  )
+}
+
+export const MDXRendererSafe = ({ content }: MDXRendererProps) => {
+  return (
+    <ErrorBoundary>
+      <MDXRenderer content={content} />
+    </ErrorBoundary>
   )
 }

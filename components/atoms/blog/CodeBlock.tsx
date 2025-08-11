@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Check, Copy } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { logger } from '@/lib/logger'
 
 interface CodeBlockProps {
   children: string
@@ -29,7 +30,7 @@ export const CodeBlock = ({
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
-      console.error('Failed to copy code:', err)
+      logger.error('Failed to copy code', { component: 'CodeBlock' }, err)
     }
   }
 
