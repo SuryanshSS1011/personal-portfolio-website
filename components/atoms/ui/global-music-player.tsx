@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Play, Pause, Music, X, Volume2, Maximize2, Minimize2, SkipForward, SkipBack, List } from "lucide-react"
 import { type MusicTrack, getNextTrack, getPreviousTrack, getTrackById } from "@/lib/music-tracks"
-import { FloatingParticles } from "@/components/atoms/animations/floating-particles"
+import { MusicReactiveParticles } from "@/components/atoms"
 
 interface GlobalMusicPlayerProps {
   isVisible: boolean
@@ -36,7 +36,7 @@ export const GlobalMusicPlayer = ({
   const [showPlaylist, setShowPlaylist] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  const toggleMusic = async () => {
+  const toggleMusic = useCallback(async () => {
     if (audioRef.current) {
       try {
         if (isPlaying) {
@@ -51,14 +51,14 @@ export const GlobalMusicPlayer = ({
         setIsPlaying(false)
       }
     }
-  }
+  }, [isPlaying])
 
   // Notify parent component when playing state changes
   useEffect(() => {
     onPlayingChange(isPlaying)
   }, [isPlaying, onPlayingChange])
 
-  const nextTrack = () => {
+  const nextTrack = useCallback(() => {
     const next = getNextTrack(currentTrack.id)
     onTrackChange(next)
     if (audioRef.current) {
@@ -67,9 +67,9 @@ export const GlobalMusicPlayer = ({
         audioRef.current.play().catch(console.error)
       }
     }
-  }
+  }, [currentTrack.id, isPlaying, onTrackChange])
 
-  const previousTrack = () => {
+  const previousTrack = useCallback(() => {
     const previous = getPreviousTrack(currentTrack.id)
     onTrackChange(previous)
     if (audioRef.current) {
@@ -78,9 +78,9 @@ export const GlobalMusicPlayer = ({
         audioRef.current.play().catch(console.error)
       }
     }
-  }
+  }, [currentTrack.id, isPlaying, onTrackChange])
 
-  const selectTrack = (trackId: string) => {
+  const selectTrack = useCallback((trackId: string) => {
     const track = getTrackById(trackId)
     if (track) {
       onTrackChange(track)
@@ -92,7 +92,7 @@ export const GlobalMusicPlayer = ({
       }
     }
     setShowPlaylist(false)
-  }
+  }, [isPlaying, onTrackChange])
 
   // Expose functions to parent
   useEffect(() => {
@@ -399,7 +399,7 @@ export const GlobalMusicPlayer = ({
             {isPlaying && (
               <>
                 {/* Music-reactive floating particles */}
-                <FloatingParticles 
+                <MusicReactiveParticles 
                   count={20}
                   musicReactive={true}
                   isPlaying={isPlaying}
@@ -452,7 +452,7 @@ export const GlobalMusicPlayer = ({
           {/* Global music-reactive particles that emanate from the player */}
           {isPlaying && (
             <div className="fixed inset-0 pointer-events-none z-40">
-              <FloatingParticles 
+              <MusicReactiveParticles 
                 count={15}
                 musicReactive={true}
                 isPlaying={isPlaying}

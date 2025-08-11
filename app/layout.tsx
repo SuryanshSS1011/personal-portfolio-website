@@ -4,7 +4,7 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/providers/theme-provider"
 import { MusicProvider } from "@/components/providers/music-provider"
-import { FloatingParticles } from "@/components/atoms/animations/floating-particles"
+import { MusicReactiveParticles } from "@/components/atoms"
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -139,7 +139,7 @@ export default function RootLayout({
         >
           <MusicProvider>
             {/* Global floating particles */}
-            <FloatingParticles 
+            <MusicReactiveParticles 
               count={35}
               className="z-[-10]"
               colors={[

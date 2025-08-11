@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useState, ReactNode, useCallback } from "react"
 import { GlobalMusicPlayer } from "@/components/atoms"
 import { type MusicTrack, musicTracks, getRandomTrack } from "@/lib/music-tracks"
 
@@ -40,14 +40,16 @@ export const MusicProvider = ({ children }: MusicProviderProps) => {
   const [globalPreviousTrack, setGlobalPreviousTrack] = useState<(() => void) | null>(null)
   const [globalSelectTrack, setGlobalSelectTrack] = useState<((trackId: string) => void) | null>(null)
 
-  const showMusicPlayer = () => setIsVisible(true)
-  const hideMusicPlayer = () => setIsVisible(false)
-  const handlePlayingChange = (playing: boolean) => setIsPlaying(playing)
-  const handleToggleMusicRef = (toggleFn: () => void) => setGlobalToggleMusic(() => toggleFn)
-  const handleNextTrackRef = (nextFn: () => void) => setGlobalNextTrack(() => nextFn)
-  const handlePreviousTrackRef = (previousFn: () => void) => setGlobalPreviousTrack(() => previousFn)
-  const handleSelectTrackRef = (selectFn: (trackId: string) => void) => setGlobalSelectTrack(() => selectFn)
-  const handleTrackChange = (track: MusicTrack) => setCurrentTrack(track)
+  const showMusicPlayer = useCallback(() => setIsVisible(true), [])
+  const hideMusicPlayer = useCallback(() => setIsVisible(false), [])
+  const handlePlayingChange = useCallback((playing: boolean) => {
+    setIsPlaying(prev => prev !== playing ? playing : prev)
+  }, [])
+  const handleToggleMusicRef = useCallback((toggleFn: () => void) => setGlobalToggleMusic(() => toggleFn), [])
+  const handleNextTrackRef = useCallback((nextFn: () => void) => setGlobalNextTrack(() => nextFn), [])
+  const handlePreviousTrackRef = useCallback((previousFn: () => void) => setGlobalPreviousTrack(() => previousFn), [])
+  const handleSelectTrackRef = useCallback((selectFn: (trackId: string) => void) => setGlobalSelectTrack(() => selectFn), [])
+  const handleTrackChange = useCallback((track: MusicTrack) => setCurrentTrack(track), [])
   
   const toggleMusic = () => {
     if (!isVisible) {

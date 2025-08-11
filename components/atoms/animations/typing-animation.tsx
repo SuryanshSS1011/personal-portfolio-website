@@ -27,7 +27,13 @@ export const TypingAnimation = ({ text, className = "", speed = 100, cursorSize 
       }, speed)
       return () => clearTimeout(timeout)
     }
-  }, [currentIndex, text, mounted])
+  }, [currentIndex, text, mounted, speed])
+  
+  // Reset when text changes
+  useEffect(() => {
+    setDisplayText("")
+    setCurrentIndex(0)
+  }, [text])
 
   return (
     <span className={className} suppressHydrationWarning>

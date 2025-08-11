@@ -25,7 +25,7 @@ interface FloatingParticlesProps {
   durationRange?: [number, number]
 }
 
-export const FloatingParticles = ({
+export const MusicReactiveParticles = ({
   count = 20,
   musicReactive = false,
   isPlaying = false,

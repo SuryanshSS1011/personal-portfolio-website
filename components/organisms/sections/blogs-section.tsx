@@ -114,15 +114,17 @@ export const BlogsSection = () => {
           
           <div className="space-y-4">
             {/* Category Filter */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
+            <div role="group" aria-labelledby="category-filter-label">
+              <div id="category-filter-label" className="text-sm font-medium text-muted-foreground mb-2 block">
                 Category
-              </label>
+              </div>
               <div className="flex flex-wrap gap-2">
                 {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
+                    aria-pressed={selectedCategory === category}
+                    aria-label={`Filter by ${category} category`}
                     className={`px-3 py-1 rounded-full text-sm transition-colors ${
                       selectedCategory === category
                         ? "bg-primary text-primary-foreground"
@@ -136,14 +138,16 @@ export const BlogsSection = () => {
             </div>
 
             {/* Tag Filter */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
+            <div role="group" aria-labelledby="tag-filter-label">
+              <div id="tag-filter-label" className="text-sm font-medium text-muted-foreground mb-2 block">
                 Tags
-              </label>
+              </div>
               <div className="space-y-3">
                 <div className="flex flex-wrap gap-2">
                   <button
                     onClick={() => setSelectedTag("")}
+                    aria-pressed={!selectedTag}
+                    aria-label="Show all tags"
                     className={`px-3 py-1 rounded-full text-sm transition-colors ${
                       !selectedTag
                         ? "bg-primary text-primary-foreground"
@@ -156,6 +160,8 @@ export const BlogsSection = () => {
                     <button
                       key={tag}
                       onClick={() => setSelectedTag(tag)}
+                      aria-pressed={selectedTag === tag}
+                      aria-label={`Filter by ${tag} tag`}
                       className={`px-3 py-1 rounded-full text-sm transition-colors ${
                         selectedTag === tag
                           ? "bg-primary text-primary-foreground"
@@ -169,6 +175,8 @@ export const BlogsSection = () => {
                 {hasMoreTags && (
                   <button
                     onClick={() => setShowAllTags(!showAllTags)}
+                    aria-expanded={showAllTags}
+                    aria-controls="tag-filter-label"
                     className="flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
                   >
                     {showAllTags ? (
@@ -189,15 +197,18 @@ export const BlogsSection = () => {
 
             {/* Sort Filter */}
             <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
+              <label htmlFor="blog-sort-select" className="text-sm font-medium text-muted-foreground mb-2 block">
                 Sort By
               </label>
               <div className="flex items-center gap-2">
                 <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
                 <select
+                  id="blog-sort-select"
+                  name="blogSort"
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="px-3 py-2 rounded-md border border-primary/20 bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
+                  aria-label="Sort blog posts by"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>

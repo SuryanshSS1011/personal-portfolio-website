@@ -118,7 +118,7 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="mb-6 relative"
+            className="mb-6 relative mt-4 sm:mt-0"
           >
             {/* Musical Rotating Disc - Synced with Global Music Player */}
             <div className="relative w-40 h-40 mx-auto">
