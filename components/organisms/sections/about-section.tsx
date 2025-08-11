@@ -32,7 +32,7 @@ export const AboutSection = () => {
   ]
 
   return (
-    <SectionWrapper id="about" title="About Me" maxWidth="5xl">
+    <SectionWrapper id="about" title="About Me" maxWidth="6xl">
       {/* Main Content */}
       <div className="space-y-12">
         {/* Introduction */}
@@ -80,21 +80,21 @@ export const AboutSection = () => {
                         className="flex items-center gap-3 p-2 rounded-lg bg-muted/30"
                       >
                         <div className="w-2 h-2 bg-primary rounded-full"></div>
-                        <span className="text-sm font-medium">College of Engineering</span>
+                        <span className="text-sm font-medium">Schreyer Honors College</span>
                       </motion.div>
                       <motion.div 
                         whileHover={{ x: 5 }}
                         className="flex items-center gap-3 p-2 rounded-lg bg-muted/30"
                       >
                         <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                        <span className="text-sm font-medium">Eberly College of Science</span>
+                        <span className="text-sm font-medium">College of Engineering</span>
                       </motion.div>
                       <motion.div 
                         whileHover={{ x: 5 }}
                         className="flex items-center gap-3 p-2 rounded-lg bg-muted/30"
                       >
                         <div className="w-2 h-2 bg-primary/70 rounded-full"></div>
-                        <span className="text-sm font-medium">Schreyer Honors College</span>
+                        <span className="text-sm font-medium">Eberly College of Science</span>
                       </motion.div>
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export const AboutSection = () => {
                   <div>
                     <h4 className="font-medium text-foreground mb-2">Minors:</h4>
                     <p className="text-sm text-muted-foreground">
-                      Computer Engineering • Mathematics • Cybersecurity (Cybersecurity Computational Foundations)
+                      Computer Engineering • Mathematics • Cybersecurity 
                     </p>
                   </div>
 

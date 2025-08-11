@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { SkillCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
@@ -9,6 +10,8 @@ import { Code, Zap, Target, Smartphone, Cloud, ChevronLeft, ChevronRight } from 
 export const SkillsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoRotating, setIsAutoRotating] = useState(true)
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
   const skillCategories = [
     {
@@ -80,6 +83,32 @@ export const SkillsSection = () => {
     return () => clearInterval(interval)
   }, [isAutoRotating, skillCategories.length])
 
+  const minSwipeDistance = 50
+  
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+  
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    
+    if (isLeftSwipe) {
+      nextCard()
+    }
+    if (isRightSwipe) {
+      prevCard()
+    }
+  }
+
   const nextCard = () => {
     setCurrentIndex((prev) => (prev + 1) % skillCategories.length)
     setIsAutoRotating(false)
@@ -92,34 +121,31 @@ export const SkillsSection = () => {
     setTimeout(() => setIsAutoRotating(true), 5000) // Resume auto-rotation after 5s
   }
 
-  const getCardPosition = (index: number) => {
+  const getCardPosition = (index: number, isMobile: boolean = false) => {
     const totalCards = skillCategories.length
     const angleStep = 360 / totalCards
     const currentAngle = (index - currentIndex) * angleStep
     
-    // 3D cylindrical rotation - horizontal axis
+    if (isMobile) {
+      // Mobile: Simple horizontal sliding
+      const x = (index - currentIndex) * 300
+      const scale = index === currentIndex ? 1 : 0.8
+      const opacity = index === currentIndex ? 1 : 0.4
+      const zIndex = index === currentIndex ? 10 : 1
+      
+      return { x, y: 0, z: 0, scale, rotateY: 0, opacity, zIndex }
+    }
+    
+    // Desktop: 3D cylindrical rotation
     const radius = 450
     const angleRad = (currentAngle * Math.PI) / 180
     
-    // X position (horizontal movement)
     const x = Math.sin(angleRad) * radius
-    
-    // Z position (depth into page)
     const z = Math.cos(angleRad) * radius
-    
-    // Y position (slight vertical variation)
     const y = Math.sin(angleRad * 2) * 20
-    
-    // DRAMATIC scale based on Z position (much bigger difference)
-    const scale = 0.3 + (z + radius) / (radius * 2) * 1.4 // Scale from 0.3 (back) to 1.7 (front)
-    
-    // Rotation around Y axis for 3D effect
+    const scale = 0.3 + (z + radius) / (radius * 2) * 1.4
     const rotateY = currentAngle * 0.8
-    
-    // Opacity based on distance from center (more dramatic)
-    const opacity = 0.2 + (scale - 0.3) / 1.4 * 0.8 // Opacity from 0.2 (back) to 1.0 (front)
-    
-    // Z-index based on Z position
+    const opacity = 0.2 + (scale - 0.3) / 1.4 * 0.8
     const zIndex = Math.round(z + radius)
     
     return { x, y, z, scale, rotateY, opacity, zIndex }
@@ -127,11 +153,17 @@ export const SkillsSection = () => {
 
   return (
     <SectionWrapper id="skills" title="Skills" maxWidth="full">
-      <div className="relative h-[500px] flex items-start justify-center pt-8 overflow-hidden" style={{ perspective: '1200px' }}>
-        {/* Navigation Arrows - Moved to Screen Edges */}
+      <div 
+        className="relative h-[400px] md:h-[500px] flex items-start justify-center pt-8 overflow-hidden"
+        style={{ perspective: '1200px' }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Navigation Arrows - Desktop */}
         <button
           onClick={prevCard}
-          className="fixed left-0 top-[60%] transform -translate-y-1/2 z-50 p-3 bg-primary/15 hover:bg-primary/25 rounded-full transition-all duration-300 backdrop-blur-md shadow-lg hover:shadow-xl hover:scale-110"
+          className="hidden md:block fixed left-0 top-[60%] transform -translate-y-1/2 z-50 p-3 bg-primary/15 hover:bg-primary/25 rounded-full transition-all duration-300 backdrop-blur-md shadow-lg hover:shadow-xl hover:scale-110"
           aria-label="Previous skill category"
         >
           <ChevronLeft className="w-6 h-6 text-primary" />
@@ -139,16 +171,37 @@ export const SkillsSection = () => {
         
         <button
           onClick={nextCard}
-          className="fixed right-0 top-[60%] transform -translate-y-1/2 z-50 p-3 bg-primary/15 hover:bg-primary/25 rounded-full transition-all duration-300 backdrop-blur-md shadow-lg hover:shadow-xl hover:scale-110"
+          className="hidden md:block fixed right-0 top-[60%] transform -translate-y-1/2 z-50 p-3 bg-primary/15 hover:bg-primary/25 rounded-full transition-all duration-300 backdrop-blur-md shadow-lg hover:shadow-xl hover:scale-110"
           aria-label="Next skill category"
         >
           <ChevronRight className="w-6 h-6 text-primary" />
         </button>
+        
+        {/* Mobile Navigation */}
+        <div className="md:hidden absolute top-2 left-1/2 transform -translate-x-1/2 z-50 flex items-center gap-4">
+          <button
+            onClick={prevCard}
+            className="p-2 bg-primary/15 hover:bg-primary/25 rounded-full transition-colors backdrop-blur-sm"
+            aria-label="Previous skill category"
+          >
+            <ChevronLeft className="w-5 h-5 text-primary" />
+          </button>
+          <div className="p-2 bg-primary/10 rounded-full backdrop-blur-sm">
+            {React.createElement(skillCategories[currentIndex].icon, { className: "w-6 h-6 text-primary" })}
+          </div>
+          <button
+            onClick={nextCard}
+            className="p-2 bg-primary/15 hover:bg-primary/25 rounded-full transition-colors backdrop-blur-sm"
+            aria-label="Next skill category"
+          >
+            <ChevronRight className="w-5 h-5 text-primary" />
+          </button>
+        </div>
 
-        {/* 3D Revolving Cards with Dramatic Scaling */}
-        <div className="relative w-full h-full flex items-start justify-center pt-40" style={{ transformStyle: 'preserve-3d' }}>
+        {/* Desktop: 3D Revolving Cards */}
+        <div className="hidden md:flex relative w-full h-full items-start justify-center pt-40" style={{ transformStyle: 'preserve-3d' }}>
           {skillCategories.map((category, index) => {
-            const position = getCardPosition(index)
+            const position = getCardPosition(index, false)
             const isCenter = index === currentIndex
             
             return (
@@ -198,6 +251,33 @@ export const SkillsSection = () => {
               </motion.div>
             )
           })}
+        </div>
+        
+        {/* Mobile: Simple Card Display */}
+        <div className="md:hidden relative w-full h-full flex items-center justify-center pt-2 px-3">
+          <div className="relative w-full max-w-lg mx-auto h-80 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 300 }}
+                animate={{ opacity: 1, x: 0, scale: 1.45 }}
+                exit={{ opacity: 0, x: -300 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30,
+                  duration: 0.6
+                }}
+                className="flex items-center justify-center"
+              >
+                <SkillCard
+                  title={skillCategories[currentIndex].title}
+                  skills={skillCategories[currentIndex].skills}
+                  icon={skillCategories[currentIndex].icon}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Auto-rotation indicator */}

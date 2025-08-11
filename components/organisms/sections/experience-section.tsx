@@ -1,18 +1,96 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/atoms"
 import { Badge } from "@/components/atoms"
 import { Tabs, TabsContent, TabsList, TabsTrigger, IconTextListItem, ContentCard, TimelineCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
-import { Coffee, BookOpen, Zap } from "lucide-react"
+import { Coffee, BookOpen, Zap, ChevronLeft, ChevronRight } from "lucide-react"
 
 export const ExperienceSection = () => {
+  const [activeTab, setActiveTab] = useState("internships")
+  const [touchStart, setTouchStart] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  
+  const tabs = ["internships", "teaching", "externships", "timeline"]
+  const currentIndex = tabs.indexOf(activeTab)
+  
+  const minSwipeDistance = 50
+  
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null)
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+  
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+  
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return
+    
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    
+    if (isLeftSwipe && currentIndex < tabs.length - 1) {
+      setActiveTab(tabs[currentIndex + 1])
+    }
+    if (isRightSwipe && currentIndex > 0) {
+      setActiveTab(tabs[currentIndex - 1])
+    }
+  }
+  
+  const goToPrevTab = () => {
+    if (currentIndex > 0) {
+      setActiveTab(tabs[currentIndex - 1])
+    }
+  }
+  
+  const goToNextTab = () => {
+    if (currentIndex < tabs.length - 1) {
+      setActiveTab(tabs[currentIndex + 1])
+    }
+  }
+
   return (
     <SectionWrapper id="experience" title="Experience" maxWidth="6xl">
+      <div 
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        className="relative"
+      >
+        {/* Mobile Navigation Arrows */}
+        <div className="md:hidden flex justify-between items-center mb-6">
+          <button
+            onClick={goToPrevTab}
+            disabled={currentIndex === 0}
+            className="p-3 rounded-full bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/20 transition-colors"
+          >
+            <ChevronLeft className="w-6 h-6 text-primary" />
+          </button>
+          <div className="text-center">
+            <div className="text-lg font-semibold text-primary capitalize">
+              {activeTab === 'teaching' ? 'Teaching & Mentoring' : activeTab}
+            </div>
+            <span className="text-xs text-muted-foreground">
+              {currentIndex + 1} of {tabs.length}
+            </span>
+          </div>
+          <button
+            onClick={goToNextTab}
+            disabled={currentIndex === tabs.length - 1}
+            className="p-3 rounded-full bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/20 transition-colors"
+          >
+            <ChevronRight className="w-6 h-6 text-primary" />
+          </button>
+        </div>
 
-          <Tabs defaultValue="internships" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-primary/10 border border-primary/20">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            {/* Desktop tabs only */}
+            <TabsList className="hidden md:grid w-full grid-cols-4 bg-primary/10 border border-primary/20">
               <TabsTrigger
                 value="internships"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
@@ -163,41 +241,77 @@ export const ExperienceSection = () => {
 
             <TabsContent value="timeline" className="space-y-8">
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-0.5 w-0.5 h-full bg-primary/20"></div>
-                <div className="space-y-12">
-                  {[
-                    { title: "Software Engineer (Intern)", date: "Jun 2025 - Present", side: "right", current: true },
-                    { title: "AI & Automation Engineer (Extern)", date: "May 2025 - Jul 2025", side: "left" },
-                    { title: "Jump Start Program Mentor", date: "May 2025 - Jun 2025", side: "right" },
-                    { title: "Full-Stack Mobile App Developer (Intern)", date: "Feb 2025 - Jun 2025", side: "left" },
-                    { title: "EECS Peer Mentor", date: "Jan 2025 - May 2025", side: "right" },
-                    { title: "Peer Tutor", date: "Aug 2024 - Dec 2024", side: "left" },
-                  ].map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: item.side === "right" ? 50 : -50 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                      whileHover={{ scale: 1.02 }}
-                      className={`flex items-center gap-4 ${item.side === "left" ? "flex-row-reverse" : ""}`}
-                    >
-                      <div className="flex-1 text-right">
-                        <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
+                {/* Desktop timeline - side-by-side layout */}
+                <div className="hidden md:block">
+                  <div className="absolute left-1/2 transform -translate-x-0.5 w-0.5 h-full bg-primary/20"></div>
+                  <div className="space-y-12">
+                    {[
+                      { title: "Software Engineer (Intern)", date: "Jun 2025 - Present", side: "right", current: true },
+                      { title: "AI & Automation Engineer (Extern)", date: "May 2025 - Jul 2025", side: "left" },
+                      { title: "Jump Start Program Mentor", date: "May 2025 - Jun 2025", side: "right" },
+                      { title: "Full-Stack Mobile App Developer (Intern)", date: "Feb 2025 - Jun 2025", side: "left" },
+                      { title: "EECS Peer Mentor", date: "Jan 2025 - May 2025", side: "right" },
+                      { title: "Peer Tutor", date: "Aug 2024 - Dec 2024", side: "left" },
+                    ].map((item, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, x: item.side === "right" ? 50 : -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.02 }}
+                        className={`flex items-center gap-4 ${item.side === "left" ? "flex-row-reverse" : ""}`}
+                      >
+                        <div className="flex-1 text-right">
+                          <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
+                            <CardContent className="p-4">
+                              <h3 className="text-primary font-semibold text-left">{item.title}</h3>
+                              <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                            </CardContent>
+                          </Card>
+                        </div>
+                        <div className={`w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg ${item.current ? "animate-pulse-gold" : ""}`} />
+                        <div className="flex-1" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Mobile timeline - vertical layout */}
+                <div className="md:hidden">
+                  <div className="absolute left-4 top-0 w-0.5 h-full bg-primary/20"></div>
+                  <div className="space-y-6 pl-8">
+                    {[
+                      { title: "Software Engineer (Intern)", date: "Jun 2025 - Present", current: true },
+                      { title: "AI & Automation Engineer (Extern)", date: "May 2025 - Jul 2025" },
+                      { title: "Jump Start Program Mentor", date: "May 2025 - Jun 2025" },
+                      { title: "Full-Stack Mobile App Developer (Intern)", date: "Feb 2025 - Jun 2025" },
+                      { title: "EECS Peer Mentor", date: "Jan 2025 - May 2025" },
+                      { title: "Peer Tutor", date: "Aug 2024 - Dec 2024" },
+                    ].map((item, index) => (
+                      <motion.div
+                        key={`mobile-${index}`}
+                        initial={{ opacity: 0, x: 20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="relative"
+                      >
+                        <div className={`absolute -left-8 top-3 w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg ${item.current ? "animate-pulse-gold" : ""}`} />
+                        <Card className="border-l-4 border-l-primary shadow-md hover:shadow-lg transition-all duration-300 border-primary/20 hover:border-primary/50 active:scale-95">
                           <CardContent className="p-4">
-                            <h3 className="text-primary font-semibold text-left">{item.title}</h3>
-                            <p className="text-xs text-muted-foreground mt-1">{item.date}</p>
+                            <h3 className="text-primary font-semibold text-sm leading-snug">{item.title}</h3>
+                            <p className="text-xs text-muted-foreground mt-2">{item.date}</p>
                           </CardContent>
                         </Card>
-                      </div>
-                      <div className={`w-4 h-4 bg-primary rounded-full border-4 border-background shadow-lg ${item.current ? "animate-pulse-gold" : ""}`} />
-                      <div className="flex-1" />
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </TabsContent>
           </Tabs>
+      </div>
     </SectionWrapper>
   )
 }
