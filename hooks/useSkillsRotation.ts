@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 
 interface UseSkillsRotationOptions {
   totalItems: number
@@ -13,6 +13,7 @@ export const useSkillsRotation = ({
 }: UseSkillsRotationOptions) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isAutoRotating, setIsAutoRotating] = useState(true)
+  const resumeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Auto rotation effect
   useEffect(() => {
@@ -25,29 +26,51 @@ export const useSkillsRotation = ({
     return () => clearInterval(interval)
   }, [isAutoRotating, totalItems, autoRotateInterval])
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (resumeTimeoutRef.current) {
+        clearTimeout(resumeTimeoutRef.current)
+      }
+    }
+  }, [])
+
   const nextItem = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % totalItems)
     setIsAutoRotating(false)
     
-    setTimeout(() => setIsAutoRotating(true), pauseOnInteraction)
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+    }
+    resumeTimeoutRef.current = setTimeout(() => setIsAutoRotating(true), pauseOnInteraction)
   }, [totalItems, pauseOnInteraction])
 
   const prevItem = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + totalItems) % totalItems)
     setIsAutoRotating(false)
     
-    setTimeout(() => setIsAutoRotating(true), pauseOnInteraction)
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+    }
+    resumeTimeoutRef.current = setTimeout(() => setIsAutoRotating(true), pauseOnInteraction)
   }, [totalItems, pauseOnInteraction])
 
   const goToItem = useCallback((index: number) => {
     setCurrentIndex(index)
     setIsAutoRotating(false)
     
-    setTimeout(() => setIsAutoRotating(true), pauseOnInteraction)
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+    }
+    resumeTimeoutRef.current = setTimeout(() => setIsAutoRotating(true), pauseOnInteraction)
   }, [pauseOnInteraction])
 
   const pauseAutoRotation = useCallback(() => {
     setIsAutoRotating(false)
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+      resumeTimeoutRef.current = null
+    }
   }, [])
 
   const resumeAutoRotation = useCallback(() => {
@@ -56,7 +79,10 @@ export const useSkillsRotation = ({
 
   const temporarilyPause = useCallback((duration: number = pauseOnInteraction) => {
     setIsAutoRotating(false)
-    setTimeout(() => setIsAutoRotating(true), duration)
+    if (resumeTimeoutRef.current) {
+      clearTimeout(resumeTimeoutRef.current)
+    }
+    resumeTimeoutRef.current = setTimeout(() => setIsAutoRotating(true), duration)
   }, [pauseOnInteraction])
 
   return {

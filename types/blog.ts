@@ -50,7 +50,7 @@ export interface BlogPostContent {
     diagrams?: { [key: string]: string }
   }
   interactive?: {
-    demos?: { [key: string]: any }
+    demos?: { [key: string]: unknown }
     codeExamples?: { [key: string]: string }
   }
 }

@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useIsMounted } from "@/hooks"
 
 let cursorInstanceCount = 0
 
 export const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const [mounted, setMounted] = useState(false)
+  const isMounted = useIsMounted()
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
     cursorInstanceCount++
-    setMounted(true)
     
     // Only activate the first instance to prevent conflicts
     if (cursorInstanceCount === 1) {
@@ -35,7 +35,7 @@ export const CustomCursor = () => {
     }
   }, [])
 
-  if (!mounted || !isActive) {
+  if (!isMounted || !isActive) {
     return null
   }
 

@@ -95,10 +95,10 @@ export const GlobalMusicPlayer = ({
             {/* Hidden audio element */}
             <audio
               ref={audioRef}
-              loop
               preload="metadata"
               onPlay={handlePlay}
               onPause={handlePause}
+              onEnded={nextTrack}
               crossOrigin="anonymous"
             >
               <source src={currentTrack.filename} type="audio/mpeg" />

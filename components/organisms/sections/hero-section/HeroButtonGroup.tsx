@@ -6,6 +6,16 @@ import { Brain, Download } from "lucide-react"
 import { Button } from "@/components/atoms"
 import { logger } from "@/lib/logger"
 
+// Google Analytics types
+declare global {
+  interface Window {
+    gtag?: (
+      command: string,
+      ...args: unknown[]
+    ) => void
+  }
+}
+
 interface HeroButtonGroupProps {
   onSectionClick: (sectionId: string) => void
 }
@@ -14,8 +24,8 @@ export const HeroButtonGroup = ({ onSectionClick }: HeroButtonGroupProps) => {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null)
 
   const handleDownloadCV = () => {
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'download', {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'download', {
         event_category: 'engagement',
         event_label: 'CV Download',
         value: 1

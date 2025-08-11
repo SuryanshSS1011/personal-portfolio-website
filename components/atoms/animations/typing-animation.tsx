@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useIsMounted } from "@/hooks"
 
 interface TypingAnimationProps {
   text: string
@@ -13,21 +14,17 @@ interface TypingAnimationProps {
 export const TypingAnimation = ({ text, className = "", speed = 100, cursorSize = "md" }: TypingAnimationProps) => {
   const [displayText, setDisplayText] = useState("")
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [mounted, setMounted] = useState(false)
+  const isMounted = useIsMounted()
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  useEffect(() => {
-    if (mounted && currentIndex < text.length) {
+    if (isMounted && currentIndex < text.length) {
       const timeout = setTimeout(() => {
         setDisplayText((prev) => prev + text[currentIndex])
         setCurrentIndex((prev) => prev + 1)
       }, speed)
       return () => clearTimeout(timeout)
     }
-  }, [currentIndex, text, mounted, speed])
+  }, [currentIndex, text, isMounted, speed])
   
   // Reset when text changes
   useEffect(() => {
@@ -37,8 +34,8 @@ export const TypingAnimation = ({ text, className = "", speed = 100, cursorSize 
 
   return (
     <span className={className} suppressHydrationWarning>
-      {mounted ? displayText : text}
-      {mounted && (
+      {isMounted ? displayText : text}
+      {isMounted && (
         <motion.span
           animate={{ opacity: [1, 0] }}
           transition={{ duration: 0.8, repeat: Number.POSITIVE_INFINITY }}

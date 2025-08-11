@@ -4,7 +4,12 @@ interface LogContext {
   component?: string
   action?: string
   userId?: string
-  [key: string]: any
+  error?: string
+  stack?: string
+  timestamp?: number
+  operation?: string
+  duration?: string
+  [key: string]: string | number | boolean | undefined
 }
 
 class Logger {
@@ -17,7 +22,7 @@ class Logger {
     return `[${timestamp}] ${level.toUpperCase()}: ${message}${contextStr}`
   }
 
-  private log(level: LogLevel, message: string, context?: LogContext, data?: any) {
+  private log(level: LogLevel, message: string, context?: LogContext, data?: unknown) {
     if (!this.isDevelopment && level === 'debug') {
       return
     }
@@ -51,19 +56,19 @@ class Logger {
     // }
   }
 
-  info(message: string, context?: LogContext, data?: any) {
+  info(message: string, context?: LogContext, data?: unknown) {
     this.log('info', message, context, data)
   }
 
-  warn(message: string, context?: LogContext, data?: any) {
+  warn(message: string, context?: LogContext, data?: unknown) {
     this.log('warn', message, context, data)
   }
 
-  error(message: string, context?: LogContext, data?: any) {
+  error(message: string, context?: LogContext, data?: unknown) {
     this.log('error', message, context, data)
   }
 
-  debug(message: string, context?: LogContext, data?: any) {
+  debug(message: string, context?: LogContext, data?: unknown) {
     this.log('debug', message, context, data)
   }
 
@@ -77,7 +82,7 @@ class Logger {
     })
   }
 
-  userAction(action: string, component?: string, additionalData?: any) {
+  userAction(action: string, component?: string, additionalData?: unknown) {
     this.info(`User action: ${action}`, {
       component,
       action,
@@ -94,7 +99,7 @@ class Logger {
   }
 
   // Placeholder for external logging service integration
-  // private sendToLoggingService(level: LogLevel, message: string, context?: LogContext, data?: any) {
+  // private sendToLoggingService(level: LogLevel, message: string, context?: LogContext, data?: unknown) {
   //   // Send to external service like Sentry, LogRocket, etc.
   // }
 }

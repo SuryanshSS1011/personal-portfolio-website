@@ -10,5 +10,9 @@ export * from './useErrorHandler'
 // Audio hooks
 export * from './useAudioPlayer'
 
+// Utility hooks
+export * from './useIsMounted'
+export * from './useCopyToClipboard'
+
 // Existing hooks
 export * from './use-animation-variants'

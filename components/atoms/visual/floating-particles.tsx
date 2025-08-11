@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useIsMounted } from "@/hooks"
 
 export const FloatingParticles = () => {
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 })
-  const [mounted, setMounted] = useState(false)
+  const isMounted = useIsMounted()
 
   useEffect(() => {
-    setMounted(true)
     if (typeof window !== "undefined") {
       setDimensions({ width: window.innerWidth, height: window.innerHeight })
 
@@ -21,7 +21,7 @@ export const FloatingParticles = () => {
     }
   }, [])
 
-  if (!mounted) return null
+  if (!isMounted) return null
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" suppressHydrationWarning>
