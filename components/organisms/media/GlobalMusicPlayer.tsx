@@ -16,11 +16,10 @@ interface GlobalMusicPlayerProps {
   onClose: () => void
   onPlayingChange: (playing: boolean) => void
   onToggleMusicRef: (toggleFn: () => void) => void
-  onNextTrackRef: (nextFn: () => void) => void
-  onPreviousTrackRef: (previousFn: () => void) => void
-  onSelectTrackRef: (selectFn: (trackId: string) => void) => void
-  onTrackChange: (track: MusicTrack) => void
   currentTrack: MusicTrack
+  nextTrack: () => void
+  previousTrack: () => void
+  selectTrack: (trackId: string) => void
   allTracks: MusicTrack[]
 }
 
@@ -29,11 +28,10 @@ export const GlobalMusicPlayer = ({
   onClose, 
   onPlayingChange, 
   onToggleMusicRef,
-  onNextTrackRef,
-  onPreviousTrackRef,
-  onSelectTrackRef,
-  onTrackChange,
   currentTrack,
+  nextTrack,
+  previousTrack,
+  selectTrack,
   allTracks
 }: GlobalMusicPlayerProps) => {
   const [isMinimized, setIsMinimized] = useState(false)
@@ -43,9 +41,6 @@ export const GlobalMusicPlayer = ({
     isPlaying,
     audioRef,
     toggleMusic,
-    nextTrack,
-    previousTrack,
-    selectTrack,
     stopAndClose,
     handlePlay,
     handlePause
@@ -56,44 +51,33 @@ export const GlobalMusicPlayer = ({
     onPlayingChange(isPlaying)
   }, [isPlaying, onPlayingChange])
 
-  // Handle track changes from parent
+  // Handle track changes and update audio source
   useEffect(() => {
     if (audioRef.current && currentTrack) {
-      audioRef.current.load()
+      // Update the audio source to the new track
+      const audioElement = audioRef.current
+      const source = audioElement.querySelector('source')
+      if (source) {
+        source.src = currentTrack.filename
+      }
+      audioElement.load()
       if (isPlaying) {
-        audioRef.current.play().catch((error) => {
+        audioElement.play().catch((error) => {
           logger.error('Failed to play after track change', { component: 'GlobalMusicPlayer' }, error)
         })
       }
     }
   }, [currentTrack, isPlaying])
 
-  // Expose functions to parent
+
+  // Expose toggle function to parent
   useEffect(() => {
     onToggleMusicRef(toggleMusic)
-    onNextTrackRef(() => {
-      nextTrack()
-    })
-    onPreviousTrackRef(() => {
-      previousTrack()
-    })
-    onSelectTrackRef((trackId: string) => {
-      selectTrack(trackId)
-      setShowPlaylist(false)
-    })
-  }, [onToggleMusicRef, onNextTrackRef, onPreviousTrackRef, onSelectTrackRef, toggleMusic, nextTrack, previousTrack, selectTrack, onTrackChange])
+  }, [onToggleMusicRef, toggleMusic])
 
   const handleClose = () => {
     stopAndClose()
     onClose()
-  }
-
-  const handleNextTrack = () => {
-    nextTrack()
-  }
-
-  const handlePreviousTrack = () => {
-    previousTrack()
   }
 
   const handleSelectTrack = (trackId: string) => {
@@ -160,8 +144,8 @@ export const GlobalMusicPlayer = ({
                       isPlaying={isPlaying}
                       showPlaylist={showPlaylist}
                       onToggleMusic={toggleMusic}
-                      onPreviousTrack={handlePreviousTrack}
-                      onNextTrack={handleNextTrack}
+                      onPreviousTrack={previousTrack}
+                      onNextTrack={nextTrack}
                       onTogglePlaylist={() => setShowPlaylist(!showPlaylist)}
                     />
                   </motion.div>

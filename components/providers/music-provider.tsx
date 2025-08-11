@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, ReactNode, useCallback } from "react"
+import { createContext, useContext, useState, ReactNode, useCallback, useRef } from "react"
 import { GlobalMusicPlayer } from "@/components/atoms"
 import { type MusicTrack, musicTracks, getRandomTrack } from "@/lib/music-tracks"
 
@@ -35,48 +35,42 @@ export const MusicProvider = ({ children }: MusicProviderProps) => {
   const [isVisible, setIsVisible] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTrack, setCurrentTrack] = useState<MusicTrack>(() => getRandomTrack())
-  const [globalToggleMusic, setGlobalToggleMusic] = useState<(() => void) | null>(null)
-  const [globalNextTrack, setGlobalNextTrack] = useState<(() => void) | null>(null)
-  const [globalPreviousTrack, setGlobalPreviousTrack] = useState<(() => void) | null>(null)
-  const [globalSelectTrack, setGlobalSelectTrack] = useState<((trackId: string) => void) | null>(null)
+  const toggleMusicRef = useRef<(() => void) | null>(null)
 
   const showMusicPlayer = useCallback(() => setIsVisible(true), [])
   const hideMusicPlayer = useCallback(() => setIsVisible(false), [])
-  const handlePlayingChange = useCallback((playing: boolean) => {
-    setIsPlaying(prev => prev !== playing ? playing : prev)
-  }, [])
-  const handleToggleMusicRef = useCallback((toggleFn: () => void) => setGlobalToggleMusic(() => toggleFn), [])
-  const handleNextTrackRef = useCallback((nextFn: () => void) => setGlobalNextTrack(() => nextFn), [])
-  const handlePreviousTrackRef = useCallback((previousFn: () => void) => setGlobalPreviousTrack(() => previousFn), [])
-  const handleSelectTrackRef = useCallback((selectFn: (trackId: string) => void) => setGlobalSelectTrack(() => selectFn), [])
-  const handleTrackChange = useCallback((track: MusicTrack) => setCurrentTrack(track), [])
   
-  const toggleMusic = () => {
+  const handlePlayingChange = useCallback((playing: boolean) => {
+    setIsPlaying(playing)
+  }, [])
+  
+  const toggleMusic = useCallback(() => {
     if (!isVisible) {
       setIsVisible(true)
     }
-    if (globalToggleMusic) {
-      globalToggleMusic()
+    if (toggleMusicRef.current) {
+      toggleMusicRef.current()
     }
-  }
+  }, [isVisible])
 
-  const nextTrack = () => {
-    if (globalNextTrack) {
-      globalNextTrack()
-    }
-  }
+  const nextTrack = useCallback(() => {
+    const currentIndex = musicTracks.findIndex(track => track.id === currentTrack.id)
+    const nextIndex = (currentIndex + 1) % musicTracks.length
+    setCurrentTrack(musicTracks[nextIndex])
+  }, [currentTrack])
 
-  const previousTrack = () => {
-    if (globalPreviousTrack) {
-      globalPreviousTrack()
-    }
-  }
+  const previousTrack = useCallback(() => {
+    const currentIndex = musicTracks.findIndex(track => track.id === currentTrack.id)
+    const previousIndex = currentIndex === 0 ? musicTracks.length - 1 : currentIndex - 1
+    setCurrentTrack(musicTracks[previousIndex])
+  }, [currentTrack])
 
-  const selectTrack = (trackId: string) => {
-    if (globalSelectTrack) {
-      globalSelectTrack(trackId)
+  const selectTrack = useCallback((trackId: string) => {
+    const track = musicTracks.find(t => t.id === trackId)
+    if (track) {
+      setCurrentTrack(track)
     }
-  }
+  }, [])
 
   return (
     <MusicContext.Provider value={{ 
@@ -96,12 +90,11 @@ export const MusicProvider = ({ children }: MusicProviderProps) => {
         isVisible={isVisible} 
         onClose={hideMusicPlayer}
         onPlayingChange={handlePlayingChange}
-        onToggleMusicRef={handleToggleMusicRef}
-        onNextTrackRef={handleNextTrackRef}
-        onPreviousTrackRef={handlePreviousTrackRef}
-        onSelectTrackRef={handleSelectTrackRef}
-        onTrackChange={handleTrackChange}
+        onToggleMusicRef={(fn) => { toggleMusicRef.current = fn }}
         currentTrack={currentTrack}
+        nextTrack={nextTrack}
+        previousTrack={previousTrack}
+        selectTrack={selectTrack}
         allTracks={musicTracks}
       />
     </MusicContext.Provider>
