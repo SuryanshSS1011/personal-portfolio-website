@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
-import { Button, TypingAnimation, ScrollIndicator, CyclingRoles } from "@/components/atoms"
+import { Button, TypingAnimation, ScrollIndicator, CyclingRoles, FloatingParticles } from "@/components/atoms"
 import { Brain, Download, Play, Pause, Volume2 } from "lucide-react"
 import { ContactItem, StaggeredList } from "@/components/molecules"
 import { useMusicPlayer } from "@/components/providers/music-provider"
@@ -75,31 +75,8 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-background to-secondary/20" />
         
-        {/* Floating background elements with mouse tracking */}
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-xl"
-          animate={{
-            x: mousePosition.x * 20,
-            y: mousePosition.y * 15,
-          }}
-          transition={{ type: "spring", stiffness: 50, damping: 20 }}
-        />
-        <motion.div
-          className="absolute top-3/4 right-1/4 w-24 h-24 bg-secondary/10 rounded-full blur-xl"
-          animate={{
-            x: mousePosition.x * -15,
-            y: mousePosition.y * -20,
-          }}
-          transition={{ type: "spring", stiffness: 40, damping: 25 }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-3/4 w-20 h-20 bg-primary/5 rounded-full blur-lg"
-          animate={{
-            x: mousePosition.x * 25,
-            y: mousePosition.y * 10,
-          }}
-          transition={{ type: "spring", stiffness: 60, damping: 15 }}
-        />
+        {/* Floating particles */}
+        <FloatingParticles />
       </motion.div>
 
 
@@ -118,7 +95,7 @@ export const HeroSection = ({ onSectionClick }: HeroSectionProps) => {
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="mb-6 relative mt-4 sm:mt-0"
+            className="mb-6 relative mt-8 sm:mt-0"
           >
             {/* Musical Rotating Disc - Synced with Global Music Player */}
             <div className="relative w-40 h-40 mx-auto">

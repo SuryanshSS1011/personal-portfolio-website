@@ -152,7 +152,7 @@ export const SkillsSection = () => {
   }
 
   return (
-    <SectionWrapper id="skills" title="Skills" maxWidth="full">
+    <SectionWrapper id="skills" title="Skills" maxWidth="6xl">
       <div 
         className="relative h-[400px] md:h-[500px] flex items-start justify-center pt-8 overflow-hidden"
         style={{ perspective: '1200px' }}
@@ -297,6 +297,7 @@ export const SkillsSection = () => {
                   ? 'bg-primary scale-125' 
                   : 'bg-primary/30 hover:bg-primary/50'
               }`}
+              aria-label={`Go to ${skillCategories[index].title} skills`}
             />
           ))}
         </div>
