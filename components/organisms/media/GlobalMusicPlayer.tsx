@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { type MusicTrack } from "@/lib/music-tracks"
 import { MusicReactiveParticles } from "@/components/atoms"
@@ -37,6 +37,12 @@ export const GlobalMusicPlayer = ({
   const [isMinimized, setIsMinimized] = useState(false)
   const [showPlaylist, setShowPlaylist] = useState(false)
   
+  /**
+   * Tracks whether the current track change was due to a natural track ending.
+   * Used to determine if the next track should auto-play.
+   */
+  const wasPlayingRef = useRef(false)
+  
   const {
     isPlaying,
     audioRef,
@@ -61,13 +67,16 @@ export const GlobalMusicPlayer = ({
         source.src = currentTrack.filename
       }
       audioElement.load()
-      if (isPlaying) {
+      
+      // Auto-play if this was a natural track ending
+      if (wasPlayingRef.current) {
         audioElement.play().catch((error) => {
           logger.error('Failed to play after track change', { component: 'GlobalMusicPlayer' }, error)
         })
+        wasPlayingRef.current = false // Reset the flag
       }
     }
-  }, [currentTrack, isPlaying])
+  }, [currentTrack])
 
 
   // Expose toggle function to parent
@@ -85,7 +94,22 @@ export const GlobalMusicPlayer = ({
     setShowPlaylist(false)
   }
 
-  if (!currentTrack) return null
+  /**
+   * Handles the natural ending of a track (onEnded event).
+   * Automatically advances to the next track and marks it for auto-play.
+   * 
+   * Note: If this handler is called, we can safely assume the track was playing,
+   * since paused tracks cannot trigger the onEnded event.
+   */
+  const handleTrackEnded = () => {
+    // Mark for auto-play since the track was naturally playing when it ended
+    wasPlayingRef.current = true
+    nextTrack()
+  }
+
+  if (!currentTrack) {
+    return null
+  }
 
   return (
     <ErrorBoundary>
@@ -98,7 +122,7 @@ export const GlobalMusicPlayer = ({
               preload="metadata"
               onPlay={handlePlay}
               onPause={handlePause}
-              onEnded={nextTrack}
+              onEnded={handleTrackEnded}
               crossOrigin="anonymous"
             >
               <source src={currentTrack.filename} type="audio/mpeg" />
