@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://suryansh-sijwali-portfolio-suryanshss1011s-projects.vercel.app"),
+  metadataBase: new URL("https://portfolio-suryansh-sijwali.vercel.app"),
   icons: {
     icon: [
       { url: "/favicon.ico" },

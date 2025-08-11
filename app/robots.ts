@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/private/', '/admin/', '/_next/'],
     },
-    sitemap: 'https://suryansh-sijwali-portfolio-suryanshss1011s-projects.vercel.app/sitemap.xml',
+    sitemap: 'https://portfolio-suryansh-sijwali.vercel.app/sitemap.xml',
   }
 }
