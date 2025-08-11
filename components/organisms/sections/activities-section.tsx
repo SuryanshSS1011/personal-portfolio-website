@@ -1,8 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from "@/components/atoms"
-import { Tabs, TabsContent, TabsList, TabsTrigger, IconTextListItem } from "@/components/molecules"
+import { ContentCard } from "@/components/molecules"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
 import { Star, Code, Users, BookOpen, Calendar, Atom } from "lucide-react"
 
@@ -12,7 +11,10 @@ export const ActivitiesSection = () => {
       title: "Education Committee Instructor",
       org: "Quantum Student Society",
       date: "Aug 2025 - Present",
-      badge: "upcoming",
+      badge: {
+        text: "Upcoming",
+        className: "bg-orange-500/20 text-orange-600 border-orange-500/30 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20"
+      },
       items: [
         "Design curriculum for quantum computing fundamentals workshops",
         "Prepare hands-on tutorials using Qiskit and quantum simulators",
@@ -26,7 +28,10 @@ export const ActivitiesSection = () => {
       title: "Inter-Club Collaboration and Event Planning In-Charge",
       org: "Penn State Chapters of ASME and IEEE",
       date: "Jan 2025 - Present",
-      badge: "current",
+      badge: {
+        text: "Current",
+        className: "bg-success/20 text-success border-success/30"
+      },
       items: [
         "Coordinated joint technical workshops between IEEE and ASME student chapters",
         "Organized interdisciplinary project showcases featuring engineering solutions",
@@ -108,93 +113,46 @@ export const ActivitiesSection = () => {
 
         <TabsContent value="leadership" className="space-y-6">
           {leadershipActivities.map((activity, index) => (
-            <motion.div
+            <ContentCard
               key={index}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-primary">
-                    <activity.icon className="h-5 w-5" />
-                    {activity.title}
-                    {activity.badge && (
-                      <Badge 
-                        variant="outline" 
-                        className={`ml-2 ${
-                          activity.badge === "upcoming" 
-                            ? "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200"
-                            : activity.badge === "current"
-                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200"
-                        }`}
-                      >
-                        {activity.badge}
-                      </Badge>
-                    )}
-                  </CardTitle>
-                  <CardDescription>
-                    {activity.org} • {activity.date}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {activity.items.map((item, itemIndex) => (
-                      <IconTextListItem
-                        key={itemIndex}
-                        icon={Star}
-                        title={typeof item === 'string' ? item : undefined}
-                        index={itemIndex}
-                        className="text-sm text-muted-foreground"
-                      >
-                        {typeof item === 'string' ? undefined : <span className="font-semibold">{item}</span>}
-                      </IconTextListItem>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+              id={`leadership-${index}`}
+              title={activity.title}
+              subtitle={activity.org}
+              date={activity.date}
+              badge={activity.badge}
+              items={activity.items}
+              icon={activity.icon}
+              index={index}
+              animation={{
+                initial: { opacity: 0, x: index % 2 === 0 ? -50 : 50 },
+                animate: { opacity: 1, x: 0 },
+                transition: { duration: 0.6, delay: index * 0.2 },
+                whileHover: { scale: 1.02 },
+                viewport: { once: true }
+              }}
+            />
           ))}
         </TabsContent>
 
         <TabsContent value="community" className="space-y-6">
           {communityServices.map((service, index) => (
-            <motion.div
+            <ContentCard
               key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
-            >
-              <Card className="border-l-4 border-l-primary shadow-lg hover:shadow-xl transition-all duration-300 border-primary/20 hover:border-primary/50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-primary">
-                    <service.icon className="h-5 w-5" />
-                    {service.title}
-                  </CardTitle>
-                  <CardDescription>
-                    {service.org} • {service.date}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {service.items.map((item, itemIndex) => (
-                      <IconTextListItem
-                        key={itemIndex}
-                        icon={Star}
-                        title={item}
-                        index={itemIndex}
-                        className="text-sm text-muted-foreground"
-                      />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+              id={`community-${index}`}
+              title={service.title}
+              subtitle={service.org}
+              date={service.date}
+              items={service.items}
+              icon={service.icon}
+              index={index}
+              animation={{
+                initial: { opacity: 0, y: 30 },
+                animate: { opacity: 1, y: 0 },
+                transition: { duration: 0.6, delay: index * 0.2 },
+                whileHover: { scale: 1.02 },
+                viewport: { once: true }
+              }}
+            />
           ))}
         </TabsContent>
       </Tabs>
