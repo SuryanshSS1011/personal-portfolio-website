@@ -7,5 +7,8 @@ export * from './useMouseTracking'
 // Error handling hooks
 export * from './useErrorHandler'
 
+// Audio hooks
+export * from './useAudioPlayer'
+
 // Existing hooks
 export * from './use-animation-variants'

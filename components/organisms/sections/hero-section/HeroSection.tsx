@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion"
 import { useMusicPlayer } from "@/components/providers/music-provider"
-import { useMouseTracking } from "@/hooks/useMouseTracking"
+import { useMouseTracking, useReducedMotion } from "@/hooks"
 import { useHeroAnimations } from "./hooks/useHeroAnimations"
-import { useReducedMotion } from "@/hooks/useReducedMotion"
 import { HeroBackground } from "./HeroBackground"
 import { HeroMusicDisc } from "./HeroMusicDisc"
 import { HeroContent } from "./HeroContent"

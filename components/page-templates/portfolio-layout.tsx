@@ -14,8 +14,8 @@ import {
   HeroSection,
   Footer
 } from "@/components/organisms"
-import { NavigationSection } from "@/types/navigation"
-import { useReducedMotion } from "@/hooks/useReducedMotion"
+import { NavigationSection } from "@/types"
+import { useReducedMotion } from "@/hooks"
 
 // Lazy load heavy sections
 const AboutSection = lazy(() => import("@/components/organisms").then(module => ({ default: module.AboutSection })))

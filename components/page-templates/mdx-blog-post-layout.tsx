@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { CustomCursor } from "@/components/atoms"
 import { BlogPostRenderer } from "@/components/organisms/blog/BlogPostRenderer"
-import { BlogPostMeta } from "@/types/blog"
+import { BlogPostMeta } from "@/types"
 
 interface MDXBlogPostLayoutProps {
   meta: BlogPostMeta

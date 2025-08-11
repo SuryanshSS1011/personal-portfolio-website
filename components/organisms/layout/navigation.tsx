@@ -6,7 +6,7 @@ import { Button, ThemeToggle, AnimationToggle } from "@/components/atoms"
 import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { NavigationItem } from "@/components/molecules"
-import { NavigationSection } from "@/types/navigation"
+import { NavigationSection } from "@/types"
 
 interface NavigationProps {
   sections: NavigationSection[]

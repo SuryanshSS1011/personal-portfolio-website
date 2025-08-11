@@ -6,7 +6,7 @@ import { InfoCard } from "@/components/molecules"
 import { SectionWrapper } from "@/components/organisms"
 import { GraduationCap, Sparkles, Palette } from "lucide-react"
 import { education, interests, personalInfo, philosophy } from "@/data/personal-info"
-import { useReducedMotion } from "@/hooks/useReducedMotion"
+import { useReducedMotion } from "@/hooks"
 
 export const AboutSection = () => {
   const prefersReducedMotion = useReducedMotion()

@@ -5,7 +5,7 @@ import { ArrowLeft, Clock, User, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { Badge, CustomCursor } from "@/components/atoms"
 import { MDXRenderer } from "@/components/organisms/blog/MDXRenderer"
-import type { BlogPostContent, BlogPostMeta } from "@/types/blog"
+import type { BlogPostContent, BlogPostMeta } from "@/types"
 
 interface BlogPostLayoutProps {
   postContent: BlogPostContent

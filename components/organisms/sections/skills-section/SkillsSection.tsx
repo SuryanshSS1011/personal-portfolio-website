@@ -2,9 +2,7 @@
 
 import { SectionWrapper } from "@/components/organisms"
 import { skillCategories } from "@/data/skills"
-import { useSkillsRotation } from "@/hooks/useSkillsRotation"
-import { useTouchGestures } from "@/hooks/useTouchGestures"
-import { useReducedMotion } from "@/hooks/useReducedMotion"
+import { useSkillsRotation, useTouchGestures, useReducedMotion } from "@/hooks"
 import { SkillsCarousel } from "./SkillsCarousel"
 import { SkillsMobileView } from "./SkillsMobileView"
 import { SkillsNavigation } from "./SkillsNavigation"
