@@ -1,3 +1,6 @@
+"use client"
+
+import React from 'react'
 import { remark } from 'remark'
 import remarkGfm from 'remark-gfm'
 import remarkHtml from 'remark-html'
@@ -68,21 +71,48 @@ const processMDXContent = async (content: string): Promise<string> => {
   return processedContent
 }
 
-export const MDXRenderer = async ({ content }: MDXRendererProps) => {
-  // First process custom MDX components
-  const processedContent = await processMDXContent(content)
+export const MDXRenderer = ({ content }: MDXRendererProps) => {
+  const [htmlContent, setHtmlContent] = React.useState<string>('')
+  const [isLoading, setIsLoading] = React.useState(true)
   
-  // Then process with unified/remark
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeHighlight)
-    .use(rehypeSlug)
-    .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(processedContent)
+  React.useEffect(() => {
+    const processContent = async () => {
+      try {
+        // First process custom MDX components
+        const processedContent = await processMDXContent(content)
+        
+        // Then process with unified/remark
+        const result = await unified()
+          .use(remarkParse)
+          .use(remarkGfm)
+          .use(remarkRehype, { allowDangerousHtml: true })
+          .use(rehypeHighlight)
+          .use(rehypeSlug)
+          .use(rehypeStringify, { allowDangerousHtml: true })
+          .process(processedContent)
+          
+        setHtmlContent(result.toString())
+      } catch (error) {
+        console.error('MDX processing error:', error)
+        setHtmlContent('<p>Error processing content</p>')
+      } finally {
+        setIsLoading(false)
+      }
+    }
     
-  const htmlContent = result.toString()
+    processContent()
+  }, [content])
+  
+  if (isLoading) {
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-4 bg-muted rounded w-3/4"></div>
+        <div className="h-4 bg-muted rounded w-1/2"></div>
+        <div className="h-4 bg-muted rounded w-5/6"></div>
+        <div className="h-32 bg-muted rounded"></div>
+      </div>
+    )
+  }
   
   return (
     <div 
