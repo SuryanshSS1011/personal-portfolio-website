@@ -24,6 +24,7 @@ const ExperienceSection = lazy(() => import("@/components/organisms").then(modul
 const ProjectsSection = lazy(() => import("@/components/organisms").then(module => ({ default: module.ProjectsSection })))
 const SkillsSection = lazy(() => import("@/components/organisms").then(module => ({ default: module.SkillsSection })))
 const ActivitiesSection = lazy(() => import("@/components/organisms").then(module => ({ default: module.ActivitiesSection })))
+const WritingSection = lazy(() => import("@/components/organisms").then(module => ({ default: module.WritingSection })))
 
 export const PortfolioLayout = () => {
   const [activeSection, setActiveSection] = useState("hero")
@@ -38,7 +39,7 @@ export const PortfolioLayout = () => {
     { id: "projects", label: "Projects", icon: Code },
     { id: "skills", label: "Skills", icon: Target },
     { id: "activities", label: "Activities", icon: Star },
-    { id: "blogs", label: "Blog", icon: BookOpen, href: "/blogs" },
+    { id: "articles", label: "Articles", icon: BookOpen },
   ]
 
   useEffect(() => {
@@ -107,6 +108,10 @@ export const PortfolioLayout = () => {
         
         <Suspense fallback={<SectionSkeleton height="400px" />}>
           <ActivitiesSection />
+        </Suspense>
+        
+        <Suspense fallback={<SectionSkeleton height="400px" />}>
+          <WritingSection />
         </Suspense>
         
         <Footer />

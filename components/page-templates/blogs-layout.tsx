@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { BookOpen, Home } from "lucide-react"
+import { BookOpen, Briefcase } from "lucide-react"
 import { 
   CustomCursor, 
   FloatingParticles, 
@@ -23,7 +23,7 @@ export const BlogsLayout = ({ blogPosts }: BlogsLayoutProps) => {
   const [isPlaying, setIsPlaying] = useState(true)
 
   const sections: NavigationSection[] = [
-    { id: "home", label: "Home", icon: Home, href: "/" },
+    { id: "home", label: "Portfolio", icon: Briefcase, href: "/" },
     { id: "blogs", label: "Blog", icon: BookOpen, href: "/blogs" },
   ]
 
